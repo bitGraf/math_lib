@@ -1,4 +1,8 @@
-1. old
 build
 bin
 install
+.vscode
+.vs
+
+# for now, just storing old code
+1. old

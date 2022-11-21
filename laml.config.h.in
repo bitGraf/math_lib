@@ -1,0 +1,14 @@
+#ifndef __LAML_CONFIG_H
+#define __LAML_CONFIG_H
+
+#define LAML_VERSION_MAJOR @laml_VERSION_MAJOR@
+#define LAML_VERSION_MINOR @laml_VERSION_MINOR@
+#define LAML_VERSION_PATCH @laml_VERSION_PATCH@
+
+namespace rh {
+    namespace laml {
+        const char* laml_version_string = "v@laml_VERSION_MAJOR@.@laml_VERSION_MINOR@.@laml_VERSION_PATCH@";
+    }
+}
+
+#endif // __LAML_CONFIG_H

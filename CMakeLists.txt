@@ -6,6 +6,8 @@ project("laml"
     DESCRIPTION "Some library"
 )
 
+configure_file(laml.config.h.in laml.config.h)
+
 if (NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     message(STATUS "This project has a top-level one called [${CMAKE_PROJECT_NAME}]")
 else()
@@ -20,12 +22,18 @@ add_library(${PROJECT_NAME} STATIC)
 target_sources(${PROJECT_NAME}
     PRIVATE
         src/laml.cpp
+
+        include/laml/laml.hpp
+        include/laml/data_types.hpp
 )
+
+message(STATUS "PROJECT_BINARY_DIR = [${PROJECT_BINARY_DIR}]")
 
 target_include_directories(${PROJECT_NAME}
     PRIVATE
         # where the library itself will look for its internal headers
         ${CMAKE_CURRENT_SOURCE_DIR}/src
+        ${PROJECT_BINARY_DIR}
     PUBLIC
         # where top-level project will look for the library's public headers
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -33,9 +41,16 @@ target_include_directories(${PROJECT_NAME}
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
+if(MSVC)
+  target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX)
+else()
+  target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror)
+endif()
+
 # without it public headers won't get installed
 set(public_headers
-    include/laml.hpp
+    include/laml/laml.hpp
+    include/laml/data_types.hpp
 )
 
 # not for MSVC
@@ -53,3 +68,4 @@ include(Installing)
 add_executable(${PROJECT_NAME}-test)
 target_sources(${PROJECT_NAME}-test PRIVATE test/main.cpp)
 target_link_libraries(${PROJECT_NAME}-test laml)
+target_include_directories(${PROJECT_NAME}-test PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
