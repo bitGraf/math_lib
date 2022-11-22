@@ -4,10 +4,11 @@
 #define LAML_VERSION_MAJOR @laml_VERSION_MAJOR@
 #define LAML_VERSION_MINOR @laml_VERSION_MINOR@
 #define LAML_VERSION_PATCH @laml_VERSION_PATCH@
+#define LAML_VERSION_STRING "v@laml_VERSION_MAJOR@.@laml_VERSION_MINOR@.@laml_VERSION_PATCH@"
 
 namespace rh {
     namespace laml {
-        const char* laml_version_string = "v@laml_VERSION_MAJOR@.@laml_VERSION_MINOR@.@laml_VERSION_PATCH@";
+        //const char* laml_version_string = "v@laml_VERSION_MAJOR@.@laml_VERSION_MINOR@.@laml_VERSION_PATCH@";
     }
 }
 

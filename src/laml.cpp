@@ -8,7 +8,7 @@
 namespace rh {
     namespace laml {
         const char* getVersionString() {
-            return laml_version_string;
+            return LAML_VERSION_STRING;
         }
 
         int getVersionComponent(int comp) {

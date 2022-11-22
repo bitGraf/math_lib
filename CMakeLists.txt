@@ -22,9 +22,14 @@ add_library(${PROJECT_NAME} STATIC)
 target_sources(${PROJECT_NAME}
     PRIVATE
         src/laml.cpp
+        src/vector.cpp
 
         include/laml/laml.hpp
         include/laml/data_types.hpp
+        include/laml/vector.hpp
+        include/laml/matrix.hpp
+        include/laml/quaternion.hpp
+        include/laml/constants.hpp
 )
 
 message(STATUS "PROJECT_BINARY_DIR = [${PROJECT_BINARY_DIR}]")
@@ -69,3 +74,9 @@ add_executable(${PROJECT_NAME}-test)
 target_sources(${PROJECT_NAME}-test PRIVATE test/main.cpp)
 target_link_libraries(${PROJECT_NAME}-test laml)
 target_include_directories(${PROJECT_NAME}-test PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
+if(MSVC)
+  target_compile_options(${PROJECT_NAME}-test PRIVATE /W4 /WX)
+else()
+  target_compile_options(${PROJECT_NAME}-test PRIVATE -Wall -Wextra -Wpedantic -Werror)
+endif()
