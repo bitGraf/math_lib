@@ -22,7 +22,6 @@ add_library(${PROJECT_NAME} STATIC)
 target_sources(${PROJECT_NAME}
     PRIVATE
         src/laml.cpp
-        src/vector.cpp
 
         include/laml/laml.hpp
         include/laml/data_types.hpp

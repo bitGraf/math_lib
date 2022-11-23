@@ -41,7 +41,7 @@ namespace rh::laml {
 		//template<class U, class V = typename std::enable_if<std::is_same<T, U>::value && size != 1, T>::type>
 		//constexpr explicit Vector(U value) noexcept : Vector(typename GenerateSequence<size>::Type{}, value) {}
 
-		// access like an array
+		//// access like an array
 		T& operator[](size_t idx) {
 			return _data[idx];
 		}
@@ -49,38 +49,6 @@ namespace rh::laml {
 			return _data[idx];
 		}
 
-		/* Operators
-		* typename T needs to implement: +,-,*,/,==
-		* These are all component-wise operations
-		* */
-		Vector<T,size> operator+(const Vector<T,size>& other) const {
-			Vector<T,size> res;
-			for (size_t n = 0; n < size; n++) {
-				res[n] = _data[n] + other[n];
-			}
-			return res;
-		}
-		Vector<T, size> operator-(const Vector<T, size>& other) const {
-			Vector<T, size> res;
-			for (size_t n = 0; n < size; n++) {
-				res[n] = _data[n] - other[n];
-			}
-			return res;
-		}
-		Vector<T, size> operator*(const Vector<T, size>& other) const {
-			Vector<T, size> res;
-			for (size_t n = 0; n < size; n++) {
-				res[n] = _data[n] * other[n];
-			}
-			return res;
-		}
-		Vector<T, size> operator/(const Vector<T, size>& other) const {
-			Vector<T, size> res;
-			for (size_t n = 0; n < size; n++) {
-				res[n] = _data[n] / other[n];
-			}
-			return res;
-		}
 		bool operator==(const Vector<T, size>& other) const {
 			for (size_t n = 0; n < size; n++) {
 				if (_data[n] != other[n]) return false;
@@ -88,58 +56,115 @@ namespace rh::laml {
 			return true;
 		}
 
-		// scalar operators
-		Vector<T, size> operator*(const T& factor) const {
-			Vector<T, size> res;
-			for (size_t n = 0; n < size; n++) {
-				res[n] = _data[n] * factor;
-			}
-			return res;
-		}
-		Vector<T, size> operator/(const T& factor) const {
-			Vector<T, size> res;
-			for (size_t n = 0; n < size; n++) {
-				res[n] = _data[n] / factor;
-			}
-			return res;
-		}
-
-		// comparison operators
-		Vector<bool, size> operator>(const Vector<T,size>& other) const {
-			Vector<bool, size> res; // fill with falses?
-			for (size_t n = 0; n < size; n++) {
-				res[n] = _data[n] > other[n];
-			}
-			return res;
-		}
-		Vector<bool, size> operator<(const Vector<T, size>& other) const {
-			Vector<bool, size> res; // fill with falses?
-			for (size_t n = 0; n < size; n++) {
-				res[n] = _data[n] < other[n];
-			}
-			return res;
-		}
-		Vector<bool, size> operator>=(const Vector<T, size>& other) const {
-			Vector<bool, size> res; // fill with falses?
-			for (size_t n = 0; n < size; n++) {
-				res[n] = _data[n] >= other[n];
-			}
-			return res;
-		}
-		Vector<bool, size> operator<=(const Vector<T, size>& other) const {
-			Vector<bool, size> res; // fill with falses?
-			for (size_t n = 0; n < size; n++) {
-				res[n] = _data[n] <= other[n];
-			}
-			return res;
-		}
-
 		const T* data() const { return _data; }
 		T* data() { return _data; }
 
-	private:
+	//private:
 		T _data[size];
 	};
+
+	/* Component-wise operators
+	 * typename T needs to implement: +,-,*,/
+	 * These are all component-wise operations
+	 * */
+	template<typename T, size_t size>
+	Vector<T, size> operator+(const Vector<T, size>& vec, const Vector<T, size>& other) {
+		Vector<T, size> res;
+		for (size_t n = 0; n < size; n++) {
+			res[n] = vec[n] + other[n];
+		}
+		return res;
+	}
+
+	template<typename T, size_t size>
+	Vector<T, size> operator-(const Vector<T, size>& vec, const Vector<T, size>& other) {
+		Vector<T, size> res;
+		for (size_t n = 0; n < size; n++) {
+			res[n] = vec[n] - other[n];
+		}
+		return res;
+	}
+
+	template<typename T, size_t size>
+	Vector<T, size> operator*(const Vector<T, size>& vec, const Vector<T, size>& other) {
+		Vector<T, size> res;
+		for (size_t n = 0; n < size; n++) {
+			res[n] = vec[n] * other[n];
+		}
+		return res;
+	}
+
+	template<typename T, size_t size>
+	Vector<T, size> operator/(const Vector<T, size>& vec, const Vector<T, size>& other) {
+		Vector<T, size> res;
+		for (size_t n = 0; n < size; n++) {
+			res[n] = vec[n] / other[n];
+		}
+		return res;
+	}
+
+	/* Scaling operators
+	 * typename T needs to implement: *,/
+	 * These are all component-wise operations
+	 * */
+	template<typename T, size_t size>
+	Vector<T, size> operator*(const Vector<T, size>& vec, const T& factor) {
+		Vector<T, size> res;
+		for (size_t n = 0; n < size; n++) {
+			res[n] = vec[n] * factor;
+		}
+		return res;
+	}
+
+	template<typename T, size_t size>
+	Vector<T, size> operator/(const Vector<T, size>& vec, const T& factor) {
+		Vector<T, size> res;
+		for (size_t n = 0; n < size; n++) {
+			res[n] = vec[n] / factor;
+		}
+		return res;
+	}
+
+	/* Component-wise comparisons
+	 * typename T needs to implement: <,<=,>,>=
+	 * These are all component-wise operations that return arrays of booleans
+	 * */
+	template<typename T, size_t size>
+	Vector<bool, size> operator>(const Vector<T, size>& vec, const Vector<T, size>& other) {
+		Vector<bool, size> res; // fill with falses?
+		for (size_t n = 0; n < size; n++) {
+			res[n] = vec[n] > other[n];
+		}
+		return res;
+	}
+
+	template<typename T, size_t size>
+	Vector<bool, size> operator<(const Vector<T, size>& vec, const Vector<T, size>& other) {
+		Vector<bool, size> res; // fill with falses?
+		for (size_t n = 0; n < size; n++) {
+			res[n] = vec[n] < other[n];
+		}
+		return res;
+	}
+
+	template<typename T, size_t size>
+	Vector<bool, size> operator>=(const Vector<T, size>& vec, const Vector<T, size>& other) {
+		Vector<bool, size> res; // fill with falses?
+		for (size_t n = 0; n < size; n++) {
+			res[n] = vec[n] >= other[n];
+		}
+		return res;
+	}
+
+	template<typename T, size_t size>
+	Vector<bool, size> operator<=(const Vector<T, size>& vec, const Vector<T, size>& other) {
+		Vector<bool, size> res; // fill with falses?
+		for (size_t n = 0; n < size; n++) {
+			res[n] = vec[n] <= other[n];
+		}
+		return res;
+	}
+
 
 	// Free functions
 	template<typename T, size_t size>
