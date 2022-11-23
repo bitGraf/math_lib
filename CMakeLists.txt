@@ -74,6 +74,9 @@ add_executable(${PROJECT_NAME}-test)
 target_sources(${PROJECT_NAME}-test PRIVATE test/main.cpp)
 target_link_libraries(${PROJECT_NAME}-test laml)
 target_include_directories(${PROJECT_NAME}-test PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+set_target_properties(${PROJECT_NAME}-test PROPERTIES
+                      RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_CURRENT_LIST_DIR}/bin/"
+                      RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_CURRENT_LIST_DIR}/bin/")
 
 if(MSVC)
   target_compile_options(${PROJECT_NAME}-test PRIVATE /W4 /WX)

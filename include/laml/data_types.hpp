@@ -1,7 +1,6 @@
 #ifndef __LAML_DATA_TYPES_H
 #define __LAML_DATA_TYPES_H
 
-#include <laml.config.h>
 #include <cstdint>
 
 namespace rh {
@@ -9,14 +8,6 @@ namespace rh {
 	/* Floating point types */
 	typedef float   f32;
 	typedef double  f64;
-
-	namespace laml {
-#ifdef LAML_HIGH_PRECISION
-		typedef f64 scalar;
-#else
-		typedef f32 scalar;
-#endif
-	}
 
 	/* Unsinged integers */
 	typedef std::uint8_t    u8;     // [0, 255]
