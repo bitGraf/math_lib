@@ -13,7 +13,7 @@ namespace rh::laml {
 	// COLUMN-MAJOR MATRIX
 	template<typename T, size_t rows, size_t cols>
 	struct Matrix {
-		static_assert((rows > 0) && (cols > 0), "Matrix cannot be zero-size in either direction");
+		static_assert((rows != 0) && (cols != 0), "Matrix cannot be zero-size in either direction");
 
 		typedef T Type;
 
@@ -56,7 +56,7 @@ namespace rh::laml {
 		laml::Vector<T, rows> _data[cols];
 	};
 
-	// Printing function
+	// Printing functions
 	template<typename T, size_t rows, size_t cols>
 	std::ostream& operator<<(std::ostream& os, const Matrix<T, rows, cols>& mat) {
 		os << "[";
@@ -67,6 +67,27 @@ namespace rh::laml {
 		}
 		os << "]";
 		return os;
+	}
+
+	template<typename T, size_t rows, size_t cols>
+	void print(const Matrix<T, rows, cols>& mat) {
+		printf("[");
+		for (size_t col = 0; col < cols; col++) {
+			print(mat[col]);
+			if (col != (cols - 1))
+				printf(", ");
+		}
+		printf("]");
+	}
+	template<typename T, size_t rows, size_t cols>
+	void print(const Matrix<T, rows, cols>& mat, const char* fmt) {
+		printf("[");
+		for (size_t col = 0; col < cols; col++) {
+			print(mat[col], fmt);
+			if (col != (cols - 1))
+				printf(", ");
+		}
+		printf("]");
 	}
 
 	/* Component-wise operators
@@ -136,7 +157,7 @@ namespace rh::laml {
 	template<typename T, size_t rows1, size_t cols1, size_t rows2, size_t cols2,
 		class V = typename std::enable_if<cols1==rows2, T>::type>
 	Matrix<T, rows1, cols2> mul(const Matrix<T, rows1, cols1>& m1, const Matrix<T, rows2, cols2>& m2) {
-		std::cout << "SLOW MUL [" << rows1 << "," << cols1 << "]x[" << rows2 << "," << cols2 << "]" << std::endl;
+		//std::cout << "SLOW MUL [" << rows1 << "," << cols1 << "]x[" << rows2 << "," << cols2 << "]" << std::endl;
 		Matrix<T, rows1, cols2> res;
 		for (size_t col = 0; col < cols2; col++) {
 			for (size_t row = 0; row < rows1; row++) {

@@ -1,7 +1,7 @@
 #ifndef __MATRIX_2_H
 #define __MATRIX_2_H
 
-#include <laml/matrix.hpp>
+#include <laml/matrix_base.hpp>
 
 namespace rh::laml {
 #pragma warning(disable : 4201) // complains about unnammed union structs
@@ -36,7 +36,7 @@ namespace rh::laml {
     // 2x2 * 2x2 multiply specialization
     template<typename T>
         Matrix<T, 2, 2> mul(const Matrix<T, 2, 2>& m1, const Matrix<T, 2, 2>& m2) {
-        std::cout << "FAST MUL [" << 2 << "," << 2 << "]x[" << 2 << "," << 2 << "]" << std::endl;
+        //std::cout << "FAST MUL [" << 2 << "," << 2 << "]x[" << 2 << "," << 2 << "]" << std::endl;
         return Matrix<T, 2, 2>(
             m1.c_11 * m2.c_11 + m1.c_12 * m2.c_21,
             m1.c_21 * m2.c_11 + m1.c_22 * m2.c_21,

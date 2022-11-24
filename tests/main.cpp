@@ -1,5 +1,4 @@
 #include <laml/laml.hpp>
-#include <laml/Matrix2.hpp>
 
 #include<iostream>
 #include <iomanip>
@@ -13,6 +12,11 @@ using namespace rh;
 int main(int argc, char** argv) {
 	UNREFERENCED_PARAMETER(argc);
 	UNREFERENCED_PARAMETER(argv);
+
+	std::cout << "Laml version string: " << laml::GetVersionString() << std::endl;
+	std::cout << " Version Major: " << laml::GetVersionMajor() << std::endl;
+	std::cout << " Version Minor: " << laml::GetVersionMinor() << std::endl;
+	std::cout << " Version Patch: " << laml::GetVersionPatch() << std::endl;
 
 	laml::Mat2 mat1; // zeros
 	mat1[0][0] = 1.7f;
@@ -67,6 +71,25 @@ int main(int argc, char** argv) {
 	std::cout << mat1 << " = " << mat1_alt << std::endl;
 	std::cout << std::endl;
 	mat1_alt.num_rows();
+
+	// matrix 3x3 specializations
+	laml::Matrix<float, 3, 3> mat32(1.0f);
+	std::cout << "eye(3) = " << mat32 << std::endl;
+	std::cout << mat32 * mat32 << std::endl;
+	std::cout << laml::mul(mat32, mat32) << std::endl;
+
+	// inverse test
+	laml::Matrix<float, 3, 3> A(2.f, -3.f, -2.f, 3.f, -3.f, 1.f, 4.f, -2.f, -1.f);
+	laml::Matrix<float, 3, 3> inv_A(5.f, 1.f, -9.f, 7.f, 6.f, -8.f, 6.f, -8.f, 3.f);
+	inv_A = inv_A / (-23.0f);
+	std::cout << std::setprecision(1);
+	std::cout << laml::mul(A, inv_A) << std::endl;
+	std::cout << laml::mul(inv_A, A) << std::endl;
+
+	printf("new print functions:\n");
+	print(A); printf("\n");
+	print(A, "%.1f"); printf("\n");
+	print(A[2]); printf("\n");
 
 	return 0;
 }

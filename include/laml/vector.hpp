@@ -163,7 +163,7 @@ namespace rh::laml {
 		return res;
 	}
 
-	// Printing function
+	// Printing functions
 	template<typename T, size_t size>
 	std::ostream& operator<<(std::ostream& os, const Vector<T,size>& vec) {
 		os << "[";
@@ -176,6 +176,26 @@ namespace rh::laml {
 		return os;
 	}
 
+	template<typename T, size_t size>
+	void print(const Vector<T, size>& vec) {
+		printf("[");
+		for (size_t n = 0; n < size; n++) {
+			printf("%.2f", vec[n]);
+			if (n != (size - 1))
+				printf(", ");
+		}
+		printf("]");
+	}
+	template<typename T, size_t size>
+	void print(const Vector<T, size>& vec, const char* fmt) {
+		printf("[");
+		for (size_t n = 0; n < size; n++) {
+			printf(fmt, vec[n]);
+			if (n != (size - 1))
+				printf(", ");
+		}
+		printf("]");
+	}
 
 	// Free functions
 	template<typename T, size_t size>

@@ -20,8 +20,8 @@ endif()
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# enable_testing()
-# add_subdirectory(tests)
+enable_testing()
+add_subdirectory(tests)
 
 add_library(${PROJECT_NAME} STATIC)
 
@@ -32,8 +32,9 @@ target_sources(${PROJECT_NAME}
         include/laml/laml.hpp
         include/laml/data_types.hpp
         include/laml/vector.hpp
-        include/laml/matrix.hpp
+        include/laml/matrix_base.hpp
         include/laml/matrix2.hpp
+        include/laml/matrix3.hpp
         include/laml/quaternion.hpp
         include/laml/constants.hpp
 )
