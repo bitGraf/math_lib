@@ -8,14 +8,25 @@
 
 namespace rh::laml {
 
-	template<size_t ...> struct Sequence {};
+	//template<size_t ...> struct Sequence {};
 
-	template<size_t N, size_t ...sequence> struct GenerateSequence :
-		GenerateSequence<N - 1, N - 1, sequence...> {};
+	//template<size_t N, size_t ...sequence> struct GenerateSequence :
+	//	GenerateSequence<N - 1, N - 1, sequence...> {};
+	//
+	//template<size_t ...sequence> struct GenerateSequence<0, sequence...> {
+	//	typedef Sequence<sequence...> Type;
+	//};
 
-	template<size_t ...sequence> struct GenerateSequence<0, sequence...> {
-		typedef Sequence<sequence...> Type;
-	};
+	//template<class A, class B> struct SequenceConcat;
+	//template<size_t ...first, size_t ...second> struct SequenceConcat<Sequence<first...>, Sequence<second...>> {
+	//	typedef Sequence<first..., (sizeof...(first) + second)...> Type;
+	//};
+	//
+	//template<size_t N> struct GenerateSequence :
+	//	SequenceConcat<typename GenerateSequence<N / 2>::Type,
+	//	typename GenerateSequence<N - N / 2>::Type> {};
+	//template<> struct GenerateSequence<1> { typedef Sequence<0> Type; };
+	//template<> struct GenerateSequence<0> { typedef Sequence<> Type; };
 
 	template<typename T, size_t size>
 	struct Vector { 
@@ -38,9 +49,15 @@ namespace rh::laml {
 		template<class... U, class V = typename std::enable_if<sizeof...(U) + 1 == size, T>::type>
 		constexpr Vector(T first, U... next) noexcept : _data{ first, next... } {}
 
-		// Initialize with single value for all components
-		//template<class U, class V = typename std::enable_if<std::is_same<T, U>::value && size != 1, T>::type>
-		//constexpr explicit Vector(U value) noexcept : Vector(typename GenerateSequence<size>::Type{}, value) {}
+		// Initialize with single value for all
+		template<class V = typename std::enable_if<size!=1, T>::type>
+		Vector(T value) {
+			for (size_t n = 0; n < size; n++) {
+				_data[n] = value;
+			}
+		}
+
+		//constexpr explicit Vector(T value) :_data{ GenerateSequence<size>::Type{} } {}
 
 		//// access like an array
 		T& operator[](size_t idx) {
