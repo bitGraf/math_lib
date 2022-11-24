@@ -8,8 +8,9 @@
 #include <laml/vector.hpp>
 
 #include <laml/matrix_base.hpp>
-#include <laml/Matrix2.hpp>
-#include <laml/Matrix3.hpp>
+#include <laml/matrix2.hpp>
+#include <laml/matrix3.hpp>
+#include <laml/matrix4.hpp>
 
 #include <laml/quaternion.hpp>
 #include <laml/constants.hpp>

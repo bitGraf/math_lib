@@ -44,15 +44,17 @@ namespace rh::laml {
             m1.c_21 * m2.c_12 + m1.c_22 * m2.c_22);
     }
 
-    //// inverse
-    //template<typename T, size_t rows, size_t cols,
-    //    class V = typename std::enable_if<rows == cols, T>::type>
-    //    Matrix<T, rows, cols> inverse(const Matrix<T, rows, cols>& mat) {
-    //    printf("MATRIX INVERSE NOT IMPLEMENTED FOR THE %dx%d case!\n", (int)rows, (int)cols);
-    //    Matrix<T, rows, cols> res;
-    //    mat;
-    //    return res;
-    //}
+    template<typename T>
+        Matrix<T, 2, 2> inverse(const Matrix<T, 2, 2>& mat) {
+        T determinant = det(mat);
+        const double tol = 1e-8;
+        if (fabs(determinant) < tol) {
+            std::cout << "Cannot inverse matrix: determinant = " << determinant << std::endl;
+            return mat;
+        }
+        Matrix<T, 2, 2> res(mat.c_22, -mat.c_21, -mat.c_12, mat.c_11);
+        return res / determinant;
+    }
 
 }
 

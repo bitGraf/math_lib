@@ -20,7 +20,7 @@ namespace rh::laml {
             _data{ in_data[0], in_data[1], in_data[2], in_data[3], in_data[4], in_data[5], in_data[6], in_data[7], in_data[8] } {}
 
         union {
-            T _data[16];
+            T _data[9];
             laml::Vector<T, 3> _cols[3];
             struct { T c_11, c_21, c_31, c_12, c_22, c_32, c_13, c_23, c_33; };
         };
@@ -52,6 +52,21 @@ namespace rh::laml {
             m1.c_21 * m2.c_13 + m1.c_22 * m2.c_23 + m1.c_23 * m2.c_33,
             m1.c_31 * m2.c_13 + m1.c_32 * m2.c_23 + m1.c_33 * m2.c_33);
     }
+
+    // inverse - NOT FULLY IMPLEMENTED FOR ALL CASES
+    //template<typename T>
+    //    Matrix<T, 3, 3> inverse(const Matrix<T, 3, 3>& mat) {
+    //    printf("MATRIX INVERSE IMPLEMENTED FOR THE %dx%d case!\n", (int)3, (int)3);
+    //    T determinant = det(mat);
+    //    const double tol = 1e-8;
+    //    if (fabs(determinant) < tol) {
+    //        std::cout << "Cannot inverse matrix: determinant = " << determinant << std::endl;
+    //        return mat;
+    //    }
+    //    Matrix<T, 3, 3> res;
+    //    mat;
+    //    return res;
+    //}
 
 }
 

@@ -4,6 +4,7 @@
 #include <utility>
 #include <ostream>
 
+//#include <laml/utils.hpp>
 #include <laml/vector.hpp>
 #include <laml/data_types.hpp>
 //#include <laml/Matrix2.hpp>
@@ -171,38 +172,78 @@ namespace rh::laml {
 		return res;
 	}
 
+	template<typename T, size_t rows, size_t cols>
+	Matrix<T, cols, rows> transpose(const Matrix<T, rows, cols>& mat) {
+		Matrix<T, cols, rows> res;
+		for (size_t i = 0; i < cols; i++) {
+			for (size_t j = 0; j < rows; j++) {
+				res[j][i] = mat[i][j]; // opposite indexing to transpose the values
+			}
+		}
+		return res;
+	}
+
 	// inverse - NOT FULLY IMPLEMENTED FOR ALL CASES
 	template<typename T, size_t rows, size_t cols,
 	class V = typename std::enable_if<rows==cols, T>::type>
 	Matrix<T, rows, cols> inverse(const Matrix<T, rows, cols>& mat) {
-		printf("MATRIX INVERSE NOT IMPLEMENTED FOR THE %dx%d case!\n", (int)rows, (int)cols);
+		/*
+		* inv(m) = adj(m)/det(m)
+		* only valid if det(m) != 0, so calculate that first.
+		* 
+		* to calculate adj(m):
+		*  - transpose m ->mT
+		*  - replace every element (i,j) of mT with the det(minor(m,i,j))
+		*  - multiply every element by its cofactor (+/- 1 alternating)
+		*/
+
+		T determinant = det(mat);
+		if (fabs(determinant) < 1e-8) {
+			std::cout << "Cannot inverse matrix: determinant = " << determinant << std::endl;
+			return mat;
+		}
+
+		Matrix<T, rows, cols> mat_transpose = laml::transpose(mat);
+		
 		Matrix<T, rows, cols> res;
-		mat;
-		return res;
+		for (size_t i = 0; i < cols; i++) {
+			for (size_t j = 0; j < rows; j++) {
+				T cofactor = (i + j) % 2 == 0 ? static_cast<T>(1.0) : static_cast<T>(-1.0);
+				res[i][j] = laml::det(laml::minor(mat_transpose, i, j)) * cofactor;
+			}
+		}
+
+		return res / determinant;
+	}
+
+	// minor matrix
+	template<typename T, size_t size>
+	Matrix<T, size-1, size-1> minor(const Matrix<T, size, size>& mat, size_t pick_col, size_t pick_row) {
+		Matrix<T, size - 1, size - 1> minor;
+		for (size_t i = 0; i < size - 1; i++) {
+			size_t new_i = (i + 1 > pick_col) ? i + 1 : i;
+			for (size_t j = 0; j < size - 1; j++) {
+				size_t new_j = (j + 1 > pick_row) ? j + 1 : j;
+
+				minor[i][j] = mat[new_i][new_j];
+			}
+		}
+		return minor;
 	}
 
 	// determinant - recusrive method for arbitrary square matrix
 	template<typename T, size_t size>
 	T det(const Matrix<T, size, size>& mat) {
-		std::cout << "Recursive determinant func!" << std::endl;
 		// create the minor matrices of rank size-1
 		// expand along the first column
 		T res = 0;
 		for (size_t n = 0; n < size; n++) {
 			T scalar = mat[0][n] * (n % 2 == 0 ? static_cast<T>(1.0) : static_cast<T>(-1));
-			Matrix<T, size - 1, size - 1> minor;
-			for (size_t i = 0; i < size - 1; i++) {
-				size_t new_i = i+1; // always expand along the first column
-				for (size_t j = 0; j < size - 1; j++) {
-					size_t new_j = (j + 1 > n) ? j + 1 : j;
-
-					minor[i][j] = mat[new_i][new_j];
-				}
-			}
+			Matrix<T, size - 1, size - 1> minor_mat = minor(mat, 0, n);
 
 			// calculate dterminants of minor matrices "recursively"
 			// not techncally recursive, since templates tho :)
-			res = res + det(minor) * scalar;
+			res = res + det(minor_mat) * scalar;
 		}
 		return res;
 	}
