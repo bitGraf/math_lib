@@ -1,4 +1,5 @@
 #include <laml/laml.hpp>
+#include <laml/Matrix2.hpp>
 
 #include<iostream>
 #include <iomanip>
@@ -60,6 +61,12 @@ int main(int argc, char** argv) {
 	std::cout << mat1 << std::endl;
 	std::cout << mat2 << std::endl;
 	std::cout << laml::mul(mat1, mat2) << std::endl;
+	std::cout << std::endl;
+
+	laml::Mat2 mat1_alt(1.7f, 4.1f, 9.8f, 3.7f); // zeros
+	std::cout << mat1 << " = " << mat1_alt << std::endl;
+	std::cout << std::endl;
+	mat1_alt.num_rows();
 
 	return 0;
 }

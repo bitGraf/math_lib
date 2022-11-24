@@ -4,7 +4,9 @@
 // include all the standard headers anyone would need
 #include <laml/data_types.hpp>
 #include <laml/vector.hpp>
+
 #include <laml/matrix.hpp>
+
 #include <laml/quaternion.hpp>
 #include <laml/constants.hpp>
 

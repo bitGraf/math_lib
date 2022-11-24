@@ -6,6 +6,9 @@ project("laml"
     DESCRIPTION "Some library"
 )
 
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "cmake")
+
 configure_file(laml.config.h.in laml.config.h)
 
 if (NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
@@ -17,8 +20,8 @@ endif()
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-enable_testing()
-add_subdirectory(tests)
+# enable_testing()
+# add_subdirectory(tests)
 
 add_library(${PROJECT_NAME} STATIC)
 
@@ -30,6 +33,7 @@ target_sources(${PROJECT_NAME}
         include/laml/data_types.hpp
         include/laml/vector.hpp
         include/laml/matrix.hpp
+        include/laml/matrix2.hpp
         include/laml/quaternion.hpp
         include/laml/constants.hpp
 )
@@ -44,6 +48,7 @@ target_include_directories(${PROJECT_NAME}
     PUBLIC
         # where top-level project will look for the library's public headers
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>
         # where external projects will look for the library's public headers
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
@@ -75,7 +80,7 @@ include(Installing)
 add_executable(${PROJECT_NAME}-test)
 target_sources(${PROJECT_NAME}-test PRIVATE tests/main.cpp)
 target_link_libraries(${PROJECT_NAME}-test laml)
-target_include_directories(${PROJECT_NAME}-test PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+#target_include_directories(${PROJECT_NAME}-test PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 set_target_properties(${PROJECT_NAME}-test PROPERTIES
                       RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_CURRENT_LIST_DIR}/bin/"
                       RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_CURRENT_LIST_DIR}/bin/")

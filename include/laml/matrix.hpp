@@ -6,6 +6,7 @@
 
 #include <laml/vector.hpp>
 #include <laml/data_types.hpp>
+//#include <laml/Matrix2.hpp>
 
 namespace rh::laml {
     
@@ -33,7 +34,7 @@ namespace rh::laml {
 		//template<class... U, class V = typename std::enable_if<sizeof...(U) + 1 == cols*rows, T>::type>
 		//constexpr Matrix(T first, U... next) noexcept : _data{ first, next... } {}
 		
-		// Initialize with single value for all diagonal
+		// Initialize with single value for all diagonal - Not really a constructor tho..
 		template<class V = typename std::enable_if<rows != 1 && rows==cols, T>::type>
 		Matrix(T value) {
 			for (size_t n = 0; n < rows; n++) {
@@ -131,9 +132,11 @@ namespace rh::laml {
 	}
 
 	// Free functions
+	// Slow multiply (triple for-loop). Make specialiazations for common-use cases
 	template<typename T, size_t rows1, size_t cols1, size_t rows2, size_t cols2,
 		class V = typename std::enable_if<cols1==rows2, T>::type>
 	Matrix<T, rows1, cols2> mul(const Matrix<T, rows1, cols1>& m1, const Matrix<T, rows2, cols2>& m2) {
+		std::cout << "SLOW MUL [" << rows1 << "," << cols1 << "]x[" << rows2 << "," << cols2 << "]" << std::endl;
 		Matrix<T, rows1, cols2> res;
 		for (size_t col = 0; col < cols2; col++) {
 			for (size_t row = 0; row < rows1; row++) {
