@@ -2,6 +2,7 @@
 #define __LAML_VECTOR_H
 
 #include <utility>
+#include <ostream>
 
 #include <laml/data_types.hpp>
 
@@ -47,13 +48,6 @@ namespace rh::laml {
 		}
 		const T& operator[](size_t idx) const {
 			return _data[idx];
-		}
-
-		bool operator==(const Vector<T, size>& other) const {
-			for (size_t n = 0; n < size; n++) {
-				if (_data[n] != other[n]) return false;
-			}
-			return true;
 		}
 
 		const T* data() const { return _data; }
@@ -163,6 +157,28 @@ namespace rh::laml {
 			res[n] = vec[n] <= other[n];
 		}
 		return res;
+	}
+
+	template<typename T, size_t size>
+	bool operator==(const Vector<T, size>& vec, const Vector<T, size>& other) {
+		Vector<bool, size> res; // fill with falses?
+		for (size_t n = 0; n < size; n++) {
+			res[n] = (vec[n] == other[n]);
+		}
+		return res;
+	}
+
+	// Printing function
+	template<typename T, size_t size>
+	std::ostream& operator<<(std::ostream& os, const Vector<T,size>& vec) {
+		os << "[";
+		for (size_t n = 0; n < size; n++) {
+			os << vec[n];
+			if (n != (size - 1))
+				os << ", ";
+		}
+		os << "]";
+		return os;
 	}
 
 
