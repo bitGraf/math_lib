@@ -33,6 +33,7 @@ namespace rh::laml {
 		static_assert(size > 0, "Vector cannot be zero-size");
 
 		typedef T Type;
+		
 		constexpr inline size_t num_elements() const { return size; }
 
 		// Default constructor
@@ -295,56 +296,62 @@ namespace rh::laml {
 	}
 
 	// Specializations
-#if 0
+#if 1
 #pragma warning(disable : 4201) // complains about unnammed union structs
 	template<typename T> struct Vector<T, 2> {
-		constexpr Vector() : data{0,0} {}
-		constexpr Vector(T _x, T _y) : data{ _x,_y } {}
+		constexpr Vector() : _data{0,0} {}
+		constexpr Vector(T _x, T _y) : _data{ _x,_y } {}
+		constexpr Vector(T _x) : _data{ _x,_x } {}
+		Vector(const float* in_data) : _data{ in_data[0], in_data[1] } {}
 
 		union {
-			T data[2];
+			T _data[2];
 			struct { T x, y; };
 		};
 
 		T& operator[](size_t idx) {
-			return data[idx];
+			return _data[idx];
 		}
 		const T& operator[](size_t idx) const {
-			return data[idx];
+			return _data[idx];
 		}
 	};
 
 	template<typename T> struct Vector<T, 3> {
-		constexpr Vector() : data{ 0,0,0 } {}
-		constexpr Vector(T _x, T _y, T _z) : data{ _x,_y,_z } {}
+		constexpr Vector() : _data{ 0,0,0 } {}
+		constexpr Vector(T _x, T _y, T _z) : _data{ _x,_y,_z } {}
+		constexpr Vector(T _x) : _data{ _x,_x,_x } {}
+		Vector(const float* in_data) : _data{ in_data[0], in_data[1], in_data[2] } {}
 
 		union {
-			T data[3];
+			T _data[3];
 			struct { T x, y, z; };
 		};
 
 		T& operator[](size_t idx) {
-			return data[idx];
+			return _data[idx];
 		}
 		const T& operator[](size_t idx) const {
-			return data[idx];
+			return _data[idx];
 		}
 	};
 
 	template<typename T> struct Vector<T, 4> {
-		constexpr Vector() : data{ 0,0,0,0 } {}
-		constexpr Vector(T _x, T _y, T _z, T _w) : data{ _x,_y,_z,_w } {}
+		constexpr Vector() : _data{ 0,0,0,0 } {}
+		constexpr Vector(T _x, T _y, T _z, T _w) : _data{ _x,_y,_z,_w } {}
+		constexpr Vector(T _x) : _data{ _x,_x,_x,_x } {}
+		Vector(const float* in_data) : _data{ in_data[0], in_data[1], in_data[2], in_data[3] } {}
 
 		union {
-			T data[4];
+			T _data[4];
 			struct { T x, y, z, w; };
 		};
 
 		T& operator[](size_t idx) {
-			return data[idx];
+			return _data[idx];
 		}
 		const T& operator[](size_t idx) const {
-			return data[idx];
+			return _data[idx];
 		}
 	};
 #pragma warning(default : 4201)

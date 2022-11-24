@@ -3,6 +3,49 @@
 #include <laml/vector.hpp>
 #include <random>
 
+TEST(Specializations, Vector) {
+	using namespace rh;
+
+	std::random_device rd;  // Will be used to obtain a seed for the random number engine
+	std::mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
+	std::uniform_real_distribution<float> dis(-100000.0, 100000.0);
+	float f1 = dis(gen);
+	float f2 = dis(gen);
+
+	float f3 = dis(gen);
+	float f4 = dis(gen);
+	float f5 = dis(gen);
+
+	float f6 = dis(gen);
+	float f7 = dis(gen);
+	float f8 = dis(gen);
+	float f9 = dis(gen);
+
+	laml::Vec2 v2(f1, f2);
+	v2.x = v2.y;
+	v2.y = f1;
+	EXPECT_FLOAT_EQ(v2.x, f2);
+	EXPECT_FLOAT_EQ(v2.y, f1);
+
+	laml::Vec3 v3(f3, f4, f5);
+	v3.x = v3.y;
+	v3.y = v3.z;
+	v3.z = f3;
+	EXPECT_FLOAT_EQ(v3.x, f4);
+	EXPECT_FLOAT_EQ(v3.y, f5);
+	EXPECT_FLOAT_EQ(v3.z, f3);
+
+	laml::Vec4 v4(f6, f7, f8, f9);
+	v4.x = v4.y;
+	v4.y = v4.z;
+	v4.z = v4.w;
+	v4.w = f6;
+	EXPECT_FLOAT_EQ(v4.x, f7);
+	EXPECT_FLOAT_EQ(v4.y, f8);
+	EXPECT_FLOAT_EQ(v4.z, f9);
+	EXPECT_FLOAT_EQ(v4.w, f6);
+}
+
 TEST(Acessors, Vector) {
 	using namespace rh;
 
