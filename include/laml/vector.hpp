@@ -8,26 +8,6 @@
 
 namespace rh::laml {
 
-	//template<size_t ...> struct Sequence {};
-
-	//template<size_t N, size_t ...sequence> struct GenerateSequence :
-	//	GenerateSequence<N - 1, N - 1, sequence...> {};
-	//
-	//template<size_t ...sequence> struct GenerateSequence<0, sequence...> {
-	//	typedef Sequence<sequence...> Type;
-	//};
-
-	//template<class A, class B> struct SequenceConcat;
-	//template<size_t ...first, size_t ...second> struct SequenceConcat<Sequence<first...>, Sequence<second...>> {
-	//	typedef Sequence<first..., (sizeof...(first) + second)...> Type;
-	//};
-	//
-	//template<size_t N> struct GenerateSequence :
-	//	SequenceConcat<typename GenerateSequence<N / 2>::Type,
-	//	typename GenerateSequence<N - N / 2>::Type> {};
-	//template<> struct GenerateSequence<1> { typedef Sequence<0> Type; };
-	//template<> struct GenerateSequence<0> { typedef Sequence<> Type; };
-
 	template<typename T, size_t size>
 	struct Vector { 
 		static_assert(size > 0, "Vector cannot be zero-size");
@@ -58,8 +38,6 @@ namespace rh::laml {
 			}
 		}
 
-		//constexpr explicit Vector(T value) :_data{ GenerateSequence<size>::Type{} } {}
-
 		//// access like an array
 		T& operator[](size_t idx) {
 			return _data[idx];
@@ -71,7 +49,6 @@ namespace rh::laml {
 		const T* data() const { return _data; }
 		T* data() { return _data; }
 
-	//private:
 		T _data[size];
 	};
 
