@@ -8,6 +8,8 @@
 #include <laml/data_types.hpp>
 //#include <laml/Matrix2.hpp>
 
+#include <iostream>
+
 namespace rh::laml {
     
 	// COLUMN-MAJOR MATRIX
@@ -167,6 +169,63 @@ namespace rh::laml {
 			}
 		}
 		return res;
+	}
+
+	// inverse - NOT FULLY IMPLEMENTED FOR ALL CASES
+	template<typename T, size_t rows, size_t cols,
+	class V = typename std::enable_if<rows==cols, T>::type>
+	Matrix<T, rows, cols> inverse(const Matrix<T, rows, cols>& mat) {
+		printf("MATRIX INVERSE NOT IMPLEMENTED FOR THE %dx%d case!\n", (int)rows, (int)cols);
+		Matrix<T, rows, cols> res;
+		mat;
+		return res;
+	}
+
+	// determinant - recusrive method for arbitrary square matrix
+	template<typename T, size_t size>
+	T det(const Matrix<T, size, size>& mat) {
+		std::cout << "Recursive determinant func!" << std::endl;
+		// create the minor matrices of rank size-1
+		// expand along the first column
+		T res = 0;
+		for (size_t n = 0; n < size; n++) {
+			T scalar = mat[0][n] * (n % 2 == 0 ? static_cast<T>(1.0) : static_cast<T>(-1));
+			Matrix<T, size - 1, size - 1> minor;
+			for (size_t i = 0; i < size - 1; i++) {
+				size_t new_i = i+1; // always expand along the first column
+				for (size_t j = 0; j < size - 1; j++) {
+					size_t new_j = (j + 1 > n) ? j + 1 : j;
+
+					minor[i][j] = mat[new_i][new_j];
+				}
+			}
+
+			// calculate dterminants of minor matrices "recursively"
+			// not techncally recursive, since templates tho :)
+			res = res + det(minor) * scalar;
+		}
+		return res;
+	}
+
+	// determinant - 3x3 case
+	template<typename T>
+	T det(const Matrix<T, 3, 3>& mat) {
+		return mat[0][0]*mat[1][1]*mat[2][2] - 
+			   mat[0][0]*mat[1][2]*mat[2][1] - 
+			   mat[0][1]*mat[1][0]*mat[2][2] + 
+			   mat[0][1]*mat[1][2]*mat[2][0] + 
+			   mat[0][2]*mat[1][0]*mat[2][1] - 
+			   mat[0][2]*mat[1][1]*mat[2][0];
+	}
+	// determinant - 2x2 case
+	template<typename T>
+	T det(const Matrix<T, 2, 2>& mat) {
+		return mat[0][0]*mat[1][1] - mat[1][0]*mat[0][1];
+	}
+	// determinant - 1x1 case
+	template<typename T>
+	T det(const Matrix<T, 1, 1>& mat) {
+		return mat[0][0];
 	}
 
 
