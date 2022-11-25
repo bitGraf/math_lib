@@ -154,6 +154,7 @@ namespace rh::laml {
 		return res;
 	}
 
+	// TODO: This should return a Vector<bool,size> instead
 	template<typename T, size_t size>
 	bool operator==(const Vector<T, size>& vec, const Vector<T, size>& other) {
 		Vector<bool, size> res; // fill with falses?

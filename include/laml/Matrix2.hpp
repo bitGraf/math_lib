@@ -33,6 +33,14 @@ namespace rh::laml {
     };
 #pragma warning(default : 4201)
 
+    template<typename T>
+	void fill(Matrix<T, 2, 2>& mat, T value) {
+        mat.c_11 = value;
+        mat.c_12 = value;
+        mat.c_21 = value;
+        mat.c_22 = value;
+	}
+
     // 2x2 * 2x2 multiply specialization
     template<typename T>
         Matrix<T, 2, 2> mul(const Matrix<T, 2, 2>& m1, const Matrix<T, 2, 2>& m2) {
@@ -42,6 +50,12 @@ namespace rh::laml {
             m1.c_21 * m2.c_11 + m1.c_22 * m2.c_21,
             m1.c_11 * m2.c_12 + m1.c_12 * m2.c_22, 
             m1.c_21 * m2.c_12 + m1.c_22 * m2.c_22);
+    }
+
+    // determinant - 2x2 case
+    template<typename T>
+    T det(const Matrix<T, 2, 2>& mat) {
+        return mat[0][0] * mat[1][1] - mat[1][0] * mat[0][1];
     }
 
     template<typename T>

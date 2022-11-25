@@ -5,6 +5,7 @@
 #include <laml.config.h>
 
 #include <laml/data_types.hpp>
+
 #include <laml/vector.hpp>
 
 #include <laml/matrix_base.hpp>
@@ -13,7 +14,9 @@
 #include <laml/matrix4.hpp>
 
 #include <laml/quaternion.hpp>
+
 #include <laml/constants.hpp>
+#include <laml/transform.hpp>
 
 namespace rh {
     namespace laml {

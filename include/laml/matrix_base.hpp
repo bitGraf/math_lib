@@ -4,10 +4,9 @@
 #include <utility>
 #include <ostream>
 
-//#include <laml/utils.hpp>
+#include <laml/laml.hpp>
 #include <laml/vector.hpp>
 #include <laml/data_types.hpp>
-//#include <laml/Matrix2.hpp>
 
 #include <iostream>
 
@@ -156,6 +155,15 @@ namespace rh::laml {
 	}
 
 	// Free functions
+	template<typename T, size_t rows, size_t cols>
+	void fill(Matrix<T, rows, cols>& mat, T value) {
+		for (size_t i = 0; i < rows; i++) {
+			for (size_t j = 0; j < cols; j++) {
+				mat[i][j] = value;
+			}
+		}
+	}
+
 	// Slow multiply (triple for-loop). Make specialiazations for common-use cases
 	template<typename T, size_t rows1, size_t cols1, size_t rows2, size_t cols2,
 		class V = typename std::enable_if<cols1==rows2, T>::type>
@@ -234,6 +242,7 @@ namespace rh::laml {
 	// determinant - recusrive method for arbitrary square matrix
 	template<typename T, size_t size>
 	T det(const Matrix<T, size, size>& mat) {
+		printf("recursive version\n");
 		// create the minor matrices of rank size-1
 		// expand along the first column
 		T res = 0;
@@ -248,26 +257,30 @@ namespace rh::laml {
 		return res;
 	}
 
-	// determinant - 3x3 case
-	template<typename T>
-	T det(const Matrix<T, 3, 3>& mat) {
-		return mat[0][0]*mat[1][1]*mat[2][2] - 
-			   mat[0][0]*mat[1][2]*mat[2][1] - 
-			   mat[0][1]*mat[1][0]*mat[2][2] + 
-			   mat[0][1]*mat[1][2]*mat[2][0] + 
-			   mat[0][2]*mat[1][0]*mat[2][1] - 
-			   mat[0][2]*mat[1][1]*mat[2][0];
-	}
-	// determinant - 2x2 case
-	template<typename T>
-	T det(const Matrix<T, 2, 2>& mat) {
-		return mat[0][0]*mat[1][1] - mat[1][0]*mat[0][1];
-	}
 	// determinant - 1x1 case
 	template<typename T>
 	T det(const Matrix<T, 1, 1>& mat) {
 		return mat[0][0];
 	}
+
+	// COMMENTING THESE OUT: I don't likem and theire functionality is already captured
+	// Useful [square] matrices to generate:
+	//template<typename T, size_t size>
+	//Matrix<T, size, size> zero_matrix() {
+	//	// safer method, tbh idk if th edefault constructor actually works...
+	//	Matrix<T, size, size> res;
+	//	for (size_t i = 0; i < size; i++) {
+	//		for (size_t j = 0; j < size; j++) {
+	//			res[i][j] = static_cast<T>(0.0);
+	//		}
+	//	}
+	//	return res;
+	//}
+	//template<typename T, size_t size>
+	//Matrix<T, size, size> identity_matrix() {
+	//	Matrix<T, size, size> res(1.0);
+	//	return res;
+	//}
 
 
 	// Specializations

@@ -35,6 +35,19 @@ namespace rh::laml {
     };
 #pragma warning(default : 4201)
 
+    template<typename T>
+    void fill(Matrix<T, 3, 3>& mat, T value) {
+        mat.c_11 = value;
+        mat.c_12 = value;
+        mat.c_13 = value;
+        mat.c_21 = value;
+        mat.c_22 = value;
+        mat.c_23 = value;
+        mat.c_31 = value;
+        mat.c_32 = value;
+        mat.c_33 = value;
+    }
+
     // 3x3 * 3x3 multiply specialization
     template<typename T>
     Matrix<T, 3, 3> mul(const Matrix<T, 3, 3>& m1, const Matrix<T, 3, 3>& m2) {
@@ -53,20 +66,51 @@ namespace rh::laml {
             m1.c_31 * m2.c_13 + m1.c_32 * m2.c_23 + m1.c_33 * m2.c_33);
     }
 
-    // inverse - NOT FULLY IMPLEMENTED FOR ALL CASES
-    //template<typename T>
-    //    Matrix<T, 3, 3> inverse(const Matrix<T, 3, 3>& mat) {
-    //    printf("MATRIX INVERSE IMPLEMENTED FOR THE %dx%d case!\n", (int)3, (int)3);
-    //    T determinant = det(mat);
-    //    const double tol = 1e-8;
-    //    if (fabs(determinant) < tol) {
-    //        std::cout << "Cannot inverse matrix: determinant = " << determinant << std::endl;
-    //        return mat;
-    //    }
-    //    Matrix<T, 3, 3> res;
-    //    mat;
-    //    return res;
-    //}
+    // determinant - 3x3 case
+    template<typename T>
+    T det(const Matrix<T, 3, 3>& mat) {
+        return mat[0][0] * mat[1][1] * mat[2][2] -
+            mat[0][0] * mat[1][2] * mat[2][1] -
+            mat[0][1] * mat[1][0] * mat[2][2] +
+            mat[0][1] * mat[1][2] * mat[2][0] +
+            mat[0][2] * mat[1][0] * mat[2][1] -
+            mat[0][2] * mat[1][1] * mat[2][0];
+    }
+
+    // inverse
+    template<typename T>
+    Matrix<T, 3, 3> inverse(const Matrix<T, 3, 3>& mat) {
+        /*
+        * inv(m) = adj(m)/det(m)
+        * only valid if det(m) != 0, so calculate that first.
+        *
+        * to calculate adj(m):
+        *  - transpose m ->mT
+        *  - replace every element (i,j) of mT with the det(minor(m,i,j))
+        *  - multiply every element by its cofactor (+/- 1 alternating)
+        */
+
+        T determinant = det(mat);
+        if (fabs(determinant) < 1e-8) {
+            std::cout << "Cannot inverse matrix: determinant = " << determinant << std::endl;
+            return mat;
+        }
+
+        Matrix<T, 3, 3> adj(
+            (mat.c_22 * mat.c_33 - mat.c_32 * mat.c_23),
+            (mat.c_31 * mat.c_23 - mat.c_21 * mat.c_33),
+            (mat.c_21 * mat.c_32 - mat.c_22 * mat.c_31),
+
+            (mat.c_32 * mat.c_13 - mat.c_12 * mat.c_33),
+            (mat.c_11 * mat.c_33 - mat.c_31 * mat.c_13),
+            (mat.c_31 * mat.c_12 - mat.c_11 * mat.c_32),
+
+            (mat.c_12 * mat.c_23 - mat.c_22 * mat.c_13),
+            (mat.c_21 * mat.c_13 - mat.c_11 * mat.c_23),
+            (mat.c_11 * mat.c_22 - mat.c_21 * mat.c_12));
+
+        return adj / determinant;
+    }
 
 }
 

@@ -47,6 +47,26 @@ namespace rh::laml {
     };
 #pragma warning(default : 4201)
 
+    template<typename T>
+    void fill(Matrix<T, 4, 4>& mat, T value) {
+        mat.c_11 = value;
+        mat.c_12 = value;
+        mat.c_13 = value;
+        mat.c_14 = value;
+        mat.c_21 = value;
+        mat.c_22 = value;
+        mat.c_23 = value;
+        mat.c_24 = value;
+        mat.c_31 = value;
+        mat.c_32 = value;
+        mat.c_33 = value;
+        mat.c_34 = value;
+        mat.c_41 = value;
+        mat.c_42 = value;
+        mat.c_43 = value;
+        mat.c_44 = value;
+    }
+
     //// 3x3 * 3x3 multiply specialization
     //template<typename T>
     //Matrix<T, 3, 3> mul(const Matrix<T, 3, 3>& m1, const Matrix<T, 3, 3>& m2) {
