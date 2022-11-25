@@ -1,11 +1,11 @@
 #include <gtest/gtest.h>
 
-#include <laml/matrix_base.hpp>
+#include <laml/laml.hpp>
 #include <random>
 
 #include "test_config.h"
 
-TEST(Constructors, Matrix2) {
+TEST(Constructors, Matrix2_specialization) {
 	/* Constructors:
 	* default
 	* single-value
@@ -24,20 +24,12 @@ TEST(Constructors, Matrix2) {
 		float f7 = dis(gen);
 		float f8 = dis(gen);
 
-		rh::laml::Matrix<float, 2, 2> mat1;
-		mat1[0][0] = f1;
-		mat1[0][1] = f2;
-		mat1[1][0] = f3;
-		mat1[1][1] = f4;
+		rh::laml::Matrix<float, 2, 2> mat1(f1, f2, f3, f4);
 
-		rh::laml::Matrix<float, 2, 2> mat2;
-		mat2[0][0] = f5;
-		mat2[0][1] = f6;
-		mat2[1][0] = f7;
-		mat2[1][1] = f8;
+		rh::laml::Matrix<float, 2, 2> mat2(f5, f6, f7, f8);
 
 		rh::laml::Matrix<float, 2, 2> mat3 = rh::laml::mul(mat1, mat2);
-		
+
 		EXPECT_FLOAT_EQ(mat3[0][0], mat1[0][0] * mat2[0][0] + mat1[1][0] * mat2[0][1]);
 		EXPECT_FLOAT_EQ(mat3[0][1], mat1[0][1] * mat2[0][0] + mat1[1][1] * mat2[0][1]);
 
@@ -46,7 +38,7 @@ TEST(Constructors, Matrix2) {
 	}
 }
 
-TEST(Constructors, Matrix3) {
+TEST(Constructors, Matrix3_specialization) {
 	/* Constructors:
 	* default
 	* single-value
@@ -76,27 +68,9 @@ TEST(Constructors, Matrix3) {
 		float g8 = dis(gen);
 		float g9 = dis(gen);
 
-		rh::laml::Matrix<float, 3, 3> mat1;
-		mat1[0][0] = f1;
-		mat1[0][1] = f2;
-		mat1[0][2] = f3;
-		mat1[1][0] = f4;
-		mat1[1][1] = f5;
-		mat1[1][2] = f6;
-		mat1[2][0] = f7;
-		mat1[2][1] = f8;
-		mat1[2][2] = f9;
+		rh::laml::Matrix<float, 3, 3> mat1(f1, f2, f3, f4, f5, f6, f7, f8, f9);
 
-		rh::laml::Matrix<float, 3, 3> mat2;
-		mat2[0][0] = g1;
-		mat2[0][1] = g2;
-		mat2[0][2] = g3;
-		mat2[1][0] = g4;
-		mat2[1][1] = g5;
-		mat2[1][2] = g6;
-		mat2[2][0] = g7;
-		mat2[2][1] = g8;
-		mat2[2][2] = g9;
+		rh::laml::Matrix<float, 3, 3> mat2(g1, g2, g3, g4, g5, g6, g7, g8, g9);
 
 		rh::laml::Matrix<float, 3, 3> mat3 = rh::laml::mul(mat1, mat2);
 
