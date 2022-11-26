@@ -37,6 +37,23 @@ namespace rh::laml::transform {
 		mat[2][3] = -one;
 		mat[3][2] = -two * zfar * znear / (zfar - znear);
 	}
+
+	template<typename T, size_t size>
+	Vector<T, size> transform_point(const Matrix<T, size, size>& mat, const Vector<T, size> vec) {
+		// DUMB DUMB DUMB, god I hate this x.x
+		static_assert(false, "fix this immediately");
+		Matrix<T, size, 1> vec_m;
+		for (size_t i = 0; i < size; i++) {
+			vec_m[0][i] = vec[i];
+		}
+		Matrix<T,size,1> res_m = mul(mat, vec_m);
+
+		Vector<T, size> res;
+		for (size_t i = 0; i < size; i++) {
+			res[i] = res_m[0][i];
+		}
+		return res;
+	}
 }
 
 #endif

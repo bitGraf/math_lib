@@ -92,6 +92,18 @@ namespace rh::laml {
 		return res;
 	}
 
+	/*
+	* Unary operators
+	*/
+	template<typename T, size_t size>
+	Vector<T, size> operator-(const Vector<T, size>& vec) {
+		Vector<T, size> res;
+		for (size_t n = 0; n < size; n++) {
+			res[n] = -vec[n];
+		}
+		return res;
+	}
+
 	/* Scaling operators
 	 * typename T needs to implement: *,/
 	 * These are all component-wise operations
@@ -107,6 +119,24 @@ namespace rh::laml {
 
 	template<typename T, size_t size>
 	Vector<T, size> operator/(const Vector<T, size>& vec, const T& factor) {
+		Vector<T, size> res;
+		for (size_t n = 0; n < size; n++) {
+			res[n] = vec[n] / factor;
+		}
+		return res;
+	}
+
+	template<typename T, size_t size>
+	Vector<T, size> operator*(const T& factor, const Vector<T, size>& vec) {
+		Vector<T, size> res;
+		for (size_t n = 0; n < size; n++) {
+			res[n] = vec[n] * factor;
+		}
+		return res;
+	}
+
+	template<typename T, size_t size>
+	Vector<T, size> operator/(const T& factor, const Vector<T, size>& vec) {
 		Vector<T, size> res;
 		for (size_t n = 0; n < size; n++) {
 			res[n] = vec[n] / factor;
@@ -357,10 +387,12 @@ namespace rh::laml {
 
 
 	// Useful shorthands
+	typedef float Scalar;
 	typedef Vector<float, 2> Vec2;
 	typedef Vector<float, 3> Vec3;
 	typedef Vector<float, 4> Vec4;
 
+	typedef double Scalar_highp;
 	typedef Vector<double, 2> Vec2_highp;
 	typedef Vector<double, 3> Vec3_highp;
 	typedef Vector<double, 4> Vec4_highp;

@@ -117,6 +117,11 @@ namespace rh::laml {
 
 		return Quaternion<T>(v.x, v.y, v.z, q1.w * q2.w - laml::dot(v1, v2));
 	}
+
+
+	// Useful shorthands
+	typedef Quaternion<float> Quat;
+	typedef Quaternion<double> Quat_highp;
 }
 
 #endif // __LAML_QUATERNION_H
