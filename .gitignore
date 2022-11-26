@@ -4,6 +4,7 @@ install
 .vscode
 .vs
 Testing
+include/laml.config.h
 
 # for now, just storing old code
 1. old

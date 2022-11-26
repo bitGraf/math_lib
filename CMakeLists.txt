@@ -26,9 +26,13 @@ add_library(laml::laml ALIAS laml)
 
 target_include_directories(
   laml INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+                 ${PROJECT_BINARY_DIR}
                  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
 target_compile_features(laml INTERFACE cxx_std_17)
+configure_file(
+    "${PROJECT_SOURCE_DIR}/cmake/laml.config.h.in" 
+    "${PROJECT_SOURCE_DIR}/include/laml.config.h")
 
 if (BUILD_TESTING AND LAML_BUILD_TESTING)
   add_subdirectory(test)
@@ -51,10 +55,6 @@ if(LAML_INSTALL_LIBRARY)
     "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
     INSTALL_DESTINATION
     ${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}/cmake)
-
-  configure_file(
-    "${PROJECT_SOURCE_DIR}/cmake/laml.config.h.in" 
-    "${PROJECT_BINARY_DIR}/laml.config.h")
 
   install(EXPORT ${PROJECT_NAME}_Targets
     FILE ${PROJECT_NAME}Targets.cmake
