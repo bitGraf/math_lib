@@ -1,8 +1,6 @@
 #ifndef __TRANSFORM_H
 #define __TRANSFORM_H
 
-#include "Engine/Core/Base.hpp"
-
 namespace rh::laml::transform {
 
 	template<typename T>
