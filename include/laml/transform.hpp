@@ -309,13 +309,13 @@ namespace rh::laml::transform {
 		}
 
 		// assume matrix is already "normalized" i.e. w=1.0
-		ENGINE_LOG_ASSERT(laml::epsilon_equal(local_matrix.c_44, 1.0, eps), "Transformation matrix non-standard!");
+		assert(laml::epsilon_equal(local_matrix.c_44, 1.0, eps) && "Transformation matrix non-standard!");
 
 		// Ignore perspective
-		ENGINE_LOG_ASSERT(
+		assert(
 			epsilon_equal(local_matrix.c_41, 0.0, eps) &&
 			epsilon_equal(local_matrix.c_42, 0.0, eps) &&
-			epsilon_equal(local_matrix.c_43, 0.0, eps),
+			epsilon_equal(local_matrix.c_43, 0.0, eps) &&
 			"Transformation has perspective elements!");
 
 		// extract Translation
