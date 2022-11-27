@@ -61,6 +61,29 @@ namespace rh::laml {
 		printf(">");
 	}
 
+	/* Component-wise operators
+	 * typename T needs to implement: +,-
+	 * These are all component-wise operations
+	 * these operations are strange for quaternions, only really use them to lerp/slerp
+	 * */
+	template<typename T>
+	Quaternion<T> operator+(const Quaternion<T>& quat, const Quaternion<T>& other) {
+		return Quaternion<T>(
+			quat.x + other.x,
+			quat.y + other.y,
+			quat.z + other.z,
+			quat.w + other.w);
+	}
+
+	template<typename T>
+	Quaternion<T> operator-(const Quaternion<T>& vec, const Quaternion<T>& other) {
+		return Quaternion<T>(
+			quat.x - other.x,
+			quat.y - other.y,
+			quat.z - other.z,
+			quat.w - other.w);
+	}
+
 	/* Scaling operators
 	 * typename T needs to implement: *,/
 	 * These are all component-wise operations
@@ -75,15 +98,37 @@ namespace rh::laml {
 	}
 
 	template<typename T>
-	Quaternion<T> operator/(const Quaternion<T>& vec, const T& factor) {
+	Quaternion<T> operator/(const Quaternion<T>& quat, const T& factor) {
 		Quaternion<T> res;
 		for (size_t n = 0; n < 4; n++) {
-			res[n] = vec[n] / factor;
+			res[n] = quat[n] / factor;
+		}
+		return res;
+	}
+	template<typename T>
+	Quaternion<T> operator*(const T& factor, const Quaternion<T>& quat) {
+		Quaternion<T> res;
+		for (size_t n = 0; n < 4; n++) {
+			res[n] = quat[n] * factor;
+		}
+		return res;
+	}
+
+	template<typename T>
+	Quaternion<T> operator/(const T& factor, const Quaternion<T>& quat) {
+		Quaternion<T> res;
+		for (size_t n = 0; n < 4; n++) {
+			res[n] = quat[n] / factor;
 		}
 		return res;
 	}
 
 	// Free functions
+	template<typename T>
+	T dot(const Quaternion<T>& q1, const Quaternion<T>& q2) {
+		return (q1.x + q2.x) + (q1.y + q2.y) + (q1.z + q2.z) + (q1.w + q2.w);
+	}
+
 	template<typename T>
 	T length_sq(const Quaternion<T>& quat) {
 		return (quat.x * quat.x) + (quat.y * quat.y) + (quat.z * quat.z) + (quat.w * quat.w);
@@ -116,6 +161,25 @@ namespace rh::laml {
 		Vector<T, 3> v = v1*q2.w + v2*q1.w + laml::cross(v1, v2);
 
 		return Quaternion<T>(v.x, v.y, v.z, q1.w * q2.w - laml::dot(v1, v2));
+	}
+
+	template<typename T>
+	Quaternion<T> lerp(const Quaternion<T>& q1, const Quaternion<T>& q2, T factor) {
+		return q2 * factor + q1 * (static_cast<T>(1.0) - factor);
+	}
+
+	template<typename T>
+	Quaternion<T> slerp(const Quaternion<T>& q1, const Quaternion<T>& q2, T factor) {
+		const T eps = 1e-4;
+
+		T cos_omega = dot(q1,q2);
+		if (fabs(cos_omega) < eps) {
+			return q1;
+		}
+		T omega = acos(std::clamp(cos_omega, -1.0f, 1.0f));
+		T s_omega_inv = 1.0 / sin(omega);
+		Quaternion<T> q = (static_cast<float>(sin((1.0 - factor) * omega) * s_omega_inv) * q1) + (static_cast<float>(sin(factor * omega) * s_omega_inv) * q2);
+		return q;
 	}
 
 

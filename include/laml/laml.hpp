@@ -20,6 +20,10 @@
 
 namespace rh {
     namespace laml {
+        template<typename T>
+        bool epsilon_equal(T value, double target, double eps) {
+            return  (fabs(static_cast<double>(value) - target) < eps);
+        }
     }
 }
 

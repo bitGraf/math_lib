@@ -8,11 +8,22 @@
 
 namespace rh {
     namespace laml {
+        const char* GetVersionString();
+        int GetVersionMajor();
+        int GetVersionMinor();
+        int GetVersionPatch();
+    }
+}
+
+#ifdef LAML_IMPLEMENTATION
+namespace rh {
+    namespace laml {
         const char* GetVersionString() {return LAML_VERSION_STRING;}
         int GetVersionMajor() {return LAML_VERSION_MAJOR;}
         int GetVersionMinor() {return LAML_VERSION_MINOR;}
         int GetVersionPatch() {return LAML_VERSION_PATCH;}
     }
 }
+#endif
 
 #endif // __LAML_CONFIG_H

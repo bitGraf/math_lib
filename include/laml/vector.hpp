@@ -184,14 +184,30 @@ namespace rh::laml {
 		return res;
 	}
 
-	// TODO: This should return a Vector<bool,size> instead
+	// TODO: This should return a Vector<bool,size> to be consistent, but makes more sense otherwise
+	//template<typename T, size_t size>
+	//Vector<bool, size> operator==(const Vector<T, size>& vec, const Vector<T, size>& other) {
+	//	Vector<bool, size> res; // fill with falses?
+	//	for (size_t n = 0; n < size; n++) {
+	//		res[n] = (vec[n] == other[n]);
+	//	}
+	//	return res;
+	//}
 	template<typename T, size_t size>
 	bool operator==(const Vector<T, size>& vec, const Vector<T, size>& other) {
-		Vector<bool, size> res; // fill with falses?
 		for (size_t n = 0; n < size; n++) {
-			res[n] = (vec[n] == other[n]);
+			if (vec[n] != other[n])
+				return false;
 		}
-		return res;
+		return true;
+	}
+	template<typename T, size_t size>
+	bool operator!=(const Vector<T, size>& vec, const Vector<T, size>& other) {
+		for (size_t n = 0; n < size; n++) {
+			if (vec[n] == other[n])
+				return false;
+		}
+		return true;
 	}
 
 	// Printing functions
@@ -369,6 +385,7 @@ namespace rh::laml {
 		constexpr Vector(T _x, T _y, T _z, T _w) : _data{ _x,_y,_z,_w } {}
 		constexpr Vector(T _x) : _data{ _x,_x,_x,_x } {}
 		Vector(const float* in_data) : _data{ in_data[0], in_data[1], in_data[2], in_data[3] } {}
+		constexpr Vector(const Vector<T, 3>& v, T w) : _data{v.x, v.y, v.z, w} {}
 
 		union {
 			T _data[4];

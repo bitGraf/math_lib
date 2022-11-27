@@ -24,12 +24,18 @@ namespace rh::laml {
              _13, _23, _33, _43,
              _14, _24, _34, _44} {}
         constexpr Matrix(T _diag) : _data{ _diag, 0, 0, 0, 0, _diag, 0, 0, 0, 0, _diag, 0, 0, 0, 0, _diag } {}
+        constexpr Matrix(T _d1, T _d2, T _d3, T _d4) : _data{ _d1, 0, 0, 0, 0, _d2, 0, 0, 0, 0, _d3, 0, 0, 0, 0, _d4 } {}
         Matrix(const float* in_data) :
             _data{ 
                 in_data[0], in_data[1], in_data[2], in_data[3], 
                 in_data[4], in_data[5], in_data[6], in_data[7], 
                 in_data[8], in_data[9], in_data[10], in_data[11],
                 in_data[12], in_data[13], in_data[14], in_data[15] } {}
+        constexpr Matrix(const Matrix<T, 3, 3>& m3) : _data{
+                m3.c_11, m3.c_21, m3.c_31, 0,
+                m3.c_12, m3.c_22, m3.c_32, 0,
+                m3.c_13, m3.c_23, m3.c_33, 0,
+                0, 0, 0, 1} {}
 
         union {
             T _data[16];

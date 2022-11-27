@@ -18,6 +18,7 @@ namespace rh::laml {
         constexpr Matrix(T _diag) : _data{ _diag, 0, 0, 0, _diag, 0, 0, 0, _diag } {}
         Matrix(const float* in_data) : 
             _data{ in_data[0], in_data[1], in_data[2], in_data[3], in_data[4], in_data[5], in_data[6], in_data[7], in_data[8] } {}
+        constexpr Matrix(const Vector<T, 3>& v1, const Vector<T, 3>& v2, const Vector<T, 3>& v3) : _cols{v1, v2, v3} {}
 
         union {
             T _data[9];

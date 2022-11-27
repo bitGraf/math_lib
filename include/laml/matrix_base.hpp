@@ -104,7 +104,7 @@ namespace rh::laml {
 		}
 		return res;
 	}
-
+	
 	template<typename T, size_t rows, size_t cols>
 	Matrix<T, rows, cols> operator-(const Matrix<T, rows, cols>& mat, const Matrix<T, rows, cols>& other) {
 		Matrix<T, rows, cols> res;
@@ -113,23 +113,40 @@ namespace rh::laml {
 		}
 		return res;
 	}
+	
+	//template<typename T, size_t rows, size_t cols>
+	//Matrix<T, rows, cols> operator*(const Matrix<T, rows, cols>& mat, const Matrix<T, rows, cols>& other) {
+	//	Matrix<T, rows, cols> res;
+	//	for (size_t n = 0; n < cols; n++) {
+	//		res[n] = mat[n] * other[n];
+	//	}
+	//	return res;
+	//}
+	//
+	//template<typename T, size_t rows, size_t cols>
+	//Matrix<T, rows, cols> operator/(const Matrix<T, rows, cols>& mat, const Matrix<T, rows, cols>& other) {
+	//	Matrix<T, rows, cols> res;
+	//	for (size_t n = 0; n < cols; n++) {
+	//		res[n] = mat[n] / other[n];
+	//	}
+	//	return res;
+	//}
 
 	template<typename T, size_t rows, size_t cols>
-	Matrix<T, rows, cols> operator*(const Matrix<T, rows, cols>& mat, const Matrix<T, rows, cols>& other) {
-		Matrix<T, rows, cols> res;
+	bool operator==(const Matrix<T, rows, cols>& mat, const Matrix<T, rows, cols>& other) {
 		for (size_t n = 0; n < cols; n++) {
-			res[n] = mat[n] * other[n];
+			if (mat[n] != other[n])
+				return false;
 		}
-		return res;
+		return true;
 	}
-
 	template<typename T, size_t rows, size_t cols>
-	Matrix<T, rows, cols> operator/(const Matrix<T, rows, cols>& mat, const Matrix<T, rows, cols>& other) {
-		Matrix<T, rows, cols> res;
+	bool operator!=(const Matrix<T, rows, cols>& mat, const Matrix<T, rows, cols>& other) {
 		for (size_t n = 0; n < cols; n++) {
-			res[n] = mat[n] / other[n];
+			if (mat[n] == other[n])
+				return false;
 		}
-		return res;
+		return true;
 	}
 
 	/* Scaling operators
@@ -263,25 +280,23 @@ namespace rh::laml {
 		return mat[0][0];
 	}
 
-	// COMMENTING THESE OUT: I don't likem and theire functionality is already captured
-	// Useful [square] matrices to generate:
-	//template<typename T, size_t size>
-	//Matrix<T, size, size> zero_matrix() {
-	//	// safer method, tbh idk if th edefault constructor actually works...
-	//	Matrix<T, size, size> res;
-	//	for (size_t i = 0; i < size; i++) {
-	//		for (size_t j = 0; j < size; j++) {
-	//			res[i][j] = static_cast<T>(0.0);
-	//		}
-	//	}
-	//	return res;
-	//}
-	//template<typename T, size_t size>
-	//Matrix<T, size, size> identity_matrix() {
-	//	Matrix<T, size, size> res(1.0);
-	//	return res;
-	//}
+	template<typename T, size_t size>
+	T trace(const Matrix<T, size, size>& mat) {
+		T res = static_cast<T>(0.0);
+		for (size_t n = 0; n < size; n++) {
+			res = res + mat[n][n];
+		}
+		return res;
+	}
 
+	template<typename T, size_t size>
+	Vector<T, size> diag(const Matrix<T, size, size>& mat) {
+		Vector<T, size> res;
+		for (size_t n = 0; n < size; n++) {
+			res[n] = mat[n][n];
+		}
+		return res;
+	}
 
 	// Specializations
 #if 0
