@@ -20,6 +20,7 @@ namespace rh::laml {
 
 		// Default constructor
 		constexpr Quaternion() : _data{ 0, 0, 0, 1.0 } {}
+		constexpr Quaternion(const Quaternion<T>& other) : _data{ other.x, other.y, other.z, other.w } {}
 
 		// Construct with float array
 		Quaternion(const float* in_data) : _data{static_cast<T>(in_data[0]), static_cast<T>(in_data[1]), static_cast<T>(in_data[2]), static_cast<T>(in_data[3])} {}
