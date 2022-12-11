@@ -127,7 +127,7 @@ namespace rh::laml {
 	// Free functions
 	template<typename T>
 	T dot(const Quaternion<T>& q1, const Quaternion<T>& q2) {
-		return (q1.x + q2.x) + (q1.y + q2.y) + (q1.z + q2.z) + (q1.w + q2.w);
+		return (q1.x * q2.x) + (q1.y * q2.y) + (q1.z * q2.z) + (q1.w * q2.w);
 	}
 
 	template<typename T>
@@ -174,7 +174,7 @@ namespace rh::laml {
 		const T eps = 1e-4;
 
 		T cos_omega = dot(q1,q2);
-		if (fabs(cos_omega) < eps) {
+		if (fabs(1.0 - cos_omega) < eps) {
 			return q1;
 		}
 		T omega = acos(std::clamp(cos_omega, -1.0f, 1.0f));

@@ -303,13 +303,16 @@ namespace rh::laml::transform {
 		//ENGINE_LOG_DEBUG("local_matrix = {0}", local_matrix);
 
 		// first check if mat[3][3] != 0;
-		double eps = 1e-8;
+		double eps = 1e-10;
 		if (laml::epsilon_equal(local_matrix.c_44, 0.0, eps)) {
 			return false;
 		}
 
 		// assume matrix is already "normalized" i.e. w=1.0
-		assert(laml::epsilon_equal(local_matrix.c_44, 1.0, eps) && "Transformation matrix non-standard!");
+		if (!laml::epsilon_equal(local_matrix.c_44, 1.0, eps)) {
+			//assert(laml::epsilon_equal(local_matrix.c_44, 1.0, eps) && "Transformation matrix non-standard!");
+			local_matrix = local_matrix / local_matrix.c_44;
+		}
 
 		// Ignore perspective
 		assert(
