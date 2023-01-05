@@ -5,7 +5,6 @@
 
 namespace rh::laml {
     
-#pragma warning(disable : 4201) // complains about unnammed union structs
     template<typename T>
     struct Quaternion {
 
@@ -39,7 +38,6 @@ namespace rh::laml {
 		const T* data() const { return _data; }
 		T* data() { return _data; }
     };
-#pragma warning(default : 4201)
 
 	// Printing functions
 	template<typename T>

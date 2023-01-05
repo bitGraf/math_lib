@@ -4,7 +4,6 @@
 #include <laml/matrix_base.hpp>
 
 namespace rh::laml {
-#pragma warning(disable : 4201) // complains about unnammed union structs
     template<typename T>
     struct Matrix<T, 3, 3> {
         typedef T Type;
@@ -34,7 +33,6 @@ namespace rh::laml {
             return _cols[idx];
         }
     };
-#pragma warning(default : 4201)
 
     template<typename T>
     void fill(Matrix<T, 3, 3>& mat, T value) {

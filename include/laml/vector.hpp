@@ -341,7 +341,6 @@ namespace rh::laml {
 
 	// Specializations
 #if 1
-#pragma warning(disable : 4201) // complains about unnammed union structs
 	template<typename T> struct Vector<T, 2> {
 		constexpr Vector() : _data{0,0} {}
 		constexpr Vector(T _x, T _y) : _data{ _x,_y } {}
@@ -399,7 +398,6 @@ namespace rh::laml {
 			return _data[idx];
 		}
 	};
-#pragma warning(default : 4201)
 #endif
 
 
