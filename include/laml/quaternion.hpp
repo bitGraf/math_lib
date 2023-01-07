@@ -1,7 +1,9 @@
 #ifndef __LAML_QUATERNION_H
 #define __LAML_QUATERNION_H
 
+#ifdef LAML_STD_INCLUDE
 #include <ostream>
+#endif
 
 namespace rh {
     namespace laml {
@@ -40,6 +42,7 @@ namespace rh {
             T* data() { return _data; }
         };
 
+#ifdef LAML_STD_INCLUDE
         // Printing functions
         template<typename T>
         std::ostream& operator<<(std::ostream& os, const Quaternion<T>& quat) {
@@ -60,6 +63,7 @@ namespace rh {
             }
             printf(">");
         }
+#endif
 
         /* Component-wise operators
 	 * typename T needs to implement: +,-

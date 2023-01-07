@@ -1,14 +1,16 @@
 #ifndef __LAML_MATRIX_H
 #define __LAML_MATRIX_H
 
+#ifdef LAML_STD_INCLUDE
 #include <utility>
 #include <ostream>
+#include <iostream>
+#endif
 
 #include <laml/laml.hpp>
 #include <laml/vector.hpp>
 #include <laml/data_types.hpp>
 
-#include <iostream>
 
 namespace rh { 
     namespace laml {
@@ -59,6 +61,7 @@ namespace rh {
             laml::Vector<T, rows> _data[cols];
         };
 
+#ifdef LAML_STD_INCLUDE
         // Printing functions
         template<typename T, size_t rows, size_t cols>
         std::ostream& operator<<(std::ostream& os, const Matrix<T, rows, cols>& mat) {
@@ -92,6 +95,7 @@ namespace rh {
             }
             printf("]");
         }
+#endif
 
         /* Component-wise operators
 	 * typename T needs to implement: +,-,*,/

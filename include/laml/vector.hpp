@@ -1,8 +1,11 @@
 #ifndef __LAML_VECTOR_H
 #define __LAML_VECTOR_H
 
+
+#ifdef LAML_STD_INCLUDE
 #include <utility>
 #include <ostream>
+#endif
 
 #include <laml/data_types.hpp>
 
@@ -211,6 +214,7 @@ namespace rh {
                        return true;
         }
 
+#ifdef LAML_STD_INCLUDE
         // Printing functions
         template<typename T, size_t size>
         std::ostream& operator<<(std::ostream& os, const Vector<T, size>& vec) {
@@ -244,6 +248,7 @@ namespace rh {
             }
             printf("]");
         }
+#endif
 
         // Free functions
         template<typename T, size_t size>
