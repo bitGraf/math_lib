@@ -7,35 +7,31 @@ namespace rh {
 
             template<typename T>
             void create_projection_orthographic(Matrix<T, 4, 4>& mat, T left, T right, T bottom, T top, T znear, T zfar) {
-                laml::fill(mat, static_cast<T>(0.0));
+                laml::fill(mat, constants::zero<T>);
 
-                const T one = static_cast<T>(1.0);
-                const T two = static_cast<T>(2.0);
-
-                mat[0][0] = two / (right - left);
-                mat[1][1] = two / (top - bottom);
-                mat[2][2] = two / (zfar - znear);
+                mat[0][0] = constants::two<T> / (right - left);
+                mat[1][1] = constants::two<T> / (top - bottom);
+                mat[2][2] = constants::two<T> / (zfar - znear);
 
                 mat[3][0] = -(right + left) / (right - left);
                 mat[3][1] = -(top + bottom) / (top - bottom);
                 mat[3][2] = -(zfar + znear) / (zfar - znear);
 
-                mat[3][3] = one;
+                mat[3][3] = constants::one<T>;
             }
 
             template<typename T>
             void create_projection_perspective(Matrix<T, 4, 4>& mat, T vertical_fov, T aspect_ratio, T znear, T zfar) {
-                laml::fill(mat, static_cast<T>(0.0));
+                laml::fill(mat, constants::zero<T>);
 
-                const T tan_half = static_cast<T>(tan(vertical_fov * constants::deg2rad / 2.0));
-                const T one = static_cast<T>(1.0);
-                const T two = static_cast<T>(2.0);
+                //const T tan_half = static_cast<T>(tan(vertical_fov * constants::deg2rad / 2.0));
+                const T tan_half = tan(vertical_fov * constants::deg2rad<T> / constants::two<T>);
 
-                mat[0][0] = one / (aspect_ratio * tan_half);
-                mat[1][1] = one / tan_half;
+                mat[0][0] = constants::one<T> / (aspect_ratio * tan_half);
+                mat[1][1] = constants::one<T> / tan_half;
                 mat[2][2] = -(zfar + znear) / (zfar - znear);
-                mat[2][3] = -one;
-                mat[3][2] = -two * zfar * znear / (zfar - znear);
+                mat[2][3] = -constants::one<T>;
+                mat[3][2] = -constants::two<T> * zfar * znear / (zfar - znear);
             }
 
             template<typename T>
@@ -43,10 +39,10 @@ namespace rh {
                 // assume no scale is applied to the camera transform!!
                 // V = inv(T x R) = inv(R) x inv(T) = transpose(R) x (-T)
                 Matrix<T, 4, 4> inv_rot(laml::transpose(transform));
-                inv_rot.c_41 = static_cast<T>(0.0);
-                inv_rot.c_42 = static_cast<T>(0.0);
-                inv_rot.c_43 = static_cast<T>(0.0);
-                Matrix<T, 4, 4> inv_translate(1.0f);
+                inv_rot.c_41 = constants::zero<T>;
+                inv_rot.c_42 = constants::zero<T>;
+                inv_rot.c_43 = constants::zero<T>;
+                Matrix<T, 4, 4> inv_translate(constants::one<T>);
                 inv_translate.c_14 = -transform.c_14;
                 inv_translate.c_24 = -transform.c_24;
                 inv_translate.c_34 = -transform.c_34;
@@ -57,7 +53,7 @@ namespace rh {
             Vector<T, size> transform_point(const Matrix<T, size, size>& mat, const Vector<T, size>& vec) {
                 Vector<T, size> res;
                 for (size_t i = 0; i < size; i++) {
-                    res[i] = static_cast<T>(0.0);
+                    res[i] = constants::zero<T>;
                     for (size_t j = 0; j < size; j++) {
                         res[i] = res[i] + vec[j] * mat[i][j];
                     }
@@ -85,7 +81,7 @@ namespace rh {
             // convert to quaternion
             template<typename T>
             Quaternion<T> quat_from_mat(const Matrix<T, 3, 3>& mat) {
-                const T one = static_cast<T>(1.0);
+                 = constants::one<T>;
                 const T four = static_cast<T>(4.0);
                 T tr = trace(mat);
                 Quaternion<T> res;
@@ -131,7 +127,7 @@ namespace rh {
                 S2 = sinf(pitch * constants::deg2rad);
                 S3 = sinf(roll * constants::deg2rad);
 
-                mat = Matrix<T, 4, 4>(static_cast<T>(1.0)); // create identity matrix
+                mat = Matrix<T, 4, 4>(constants::one<T>); // create identity matrix
                 mat[0][0] = C1 * C3 - S1 * S2 * S3;
                 mat[0][1] = -C2 * S3;
                 mat[0][2] = -S1 * C3 - C1 * S2 * S3;
@@ -154,7 +150,7 @@ namespace rh {
                 S2 = sin(pitch * constants::deg2rad);
                 S3 = sin(roll * constants::deg2rad);
 
-                mat = Matrix<T, 3, 3>(static_cast<T>(1.0)); // create identity matrix
+                mat = Matrix<T, 3, 3>(constants::one<T>); // create identity matrix
                 mat[0][0] = C1 * C3 - S1 * S2 * S3;
                 mat[0][1] = -C2 * S3;
                 mat[0][2] = -S1 * C3 - C1 * S2 * S3;
@@ -169,7 +165,7 @@ namespace rh {
             }
             template<typename T>
             void create_transform_rotation(Matrix<T, 4, 4>& mat, const Quaternion<T>& rot_quat) {
-                mat = Matrix<T, 4, 4>(1.0f);
+                mat = Matrix<T, 4, 4>(constants::one<T>);
                 mat[0][0] = 1 - 2 * (rot_quat.y * rot_quat.y) - 2 * (rot_quat.z * rot_quat.z);
                 mat[0][1] = 2 * (rot_quat.x * rot_quat.y + rot_quat.z * rot_quat.w);
                 mat[0][2] = 2 * (rot_quat.z * rot_quat.x - rot_quat.y * rot_quat.w);
@@ -182,7 +178,7 @@ namespace rh {
             }
             template<typename T>
             void create_transform_rotation(Matrix<T, 3, 3>& mat, const Quaternion<T>& rot_quat) {
-                mat = Matrix<T, 3, 3>(1.0f);
+                mat = Matrix<T, 3, 3>(constants::one<T>);
                 mat[0][0] = 1 - 2 * (rot_quat.y * rot_quat.y) - 2 * (rot_quat.z * rot_quat.z);
                 mat[0][1] = 2 * (rot_quat.x * rot_quat.y + rot_quat.z * rot_quat.w);
                 mat[0][2] = 2 * (rot_quat.z * rot_quat.x - rot_quat.y * rot_quat.w);
@@ -196,23 +192,23 @@ namespace rh {
 
             template<typename T>
             void create_transform_scale(Matrix<T, 4, 4>& mat, T x_scale, T y_scale, T z_scale) {
-                mat = Matrix<T, 4, 4>(x_scale, y_scale, z_scale, static_cast<T>(1.0));
+                mat = Matrix<T, 4, 4>(x_scale, y_scale, z_scale, constants::one<T>);
             }
             template<typename T>
             void create_transform_scale(Matrix<T, 4, 4>& mat, const Vector<T, 3>& scale_vec) {
-                mat = Matrix<T, 4, 4>(scale_vec.x, scale_vec.y, scale_vec.z, static_cast<T>(1.0));
+                mat = Matrix<T, 4, 4>(scale_vec.x, scale_vec.y, scale_vec.z, constants::one<T>);
             }
 
             template<typename T>
             void create_transform_translate(Matrix<T, 4, 4>& mat, T x_trans, T y_trans, T z_trans) {
-                mat = Matrix<T, 4, 4>(1.0f);
+                mat = Matrix<T, 4, 4>(constants::one<T>);
                 mat.c_14 = x_trans;
                 mat.c_24 = y_trans;
                 mat.c_34 = z_trans;
             }
             template<typename T>
             void create_transform_translate(Matrix<T, 4, 4>& mat, const Vector<T, 3>& trans_vec) {
-                mat = Matrix<T, 4, 4>(1.0f);
+                mat = Matrix<T, 4, 4>(constants::one<T>);
                 mat.c_14 = trans_vec.x;
                 mat.c_24 = trans_vec.y;
                 mat.c_34 = trans_vec.z;
@@ -328,9 +324,9 @@ namespace rh {
                 trans_vec.y = local_matrix.c_24;
                 trans_vec.z = local_matrix.c_34;
 
-                local_matrix.c_14 = static_cast<T>(0.0);
-                local_matrix.c_24 = static_cast<T>(0.0);
-                local_matrix.c_34 = static_cast<T>(0.0);
+                local_matrix.c_14 = constants::zero<T>;
+                local_matrix.c_24 = constants::zero<T>;
+                local_matrix.c_34 = constants::zero<T>;
 
                 //ENGINE_LOG_DEBUG("pos_vec = {0}", trans_vec);
                 //ENGINE_LOG_DEBUG("local_matrix = {0}", local_matrix);

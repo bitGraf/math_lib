@@ -177,6 +177,13 @@ namespace rh {
         }
 
         // Free functions
+        template<typename T, size_t size>
+        void identity(Matrix<T, size, size>& mat) {
+            for (size_t i = 0; i < size; i++) {
+                mat[i][i] = static_cast<T>(1.0);
+            }
+        }
+
         template<typename T, size_t rows, size_t cols>
         void fill(Matrix<T, rows, cols>& mat, T value) {
             for (size_t i = 0; i < rows; i++) {
@@ -229,7 +236,10 @@ namespace rh {
 
             T determinant = det(mat);
             if (fabs(determinant) < 1e-8) {
+                // TODO: Remove all print statements in this code >.<
+#if 0
                 std::cout << "Cannot inverse matrix: determinant = " << determinant << std::endl;
+#endif
                 return mat;
             }
 
@@ -264,7 +274,10 @@ namespace rh {
         // determinant - recusrive method for arbitrary square matrix
         template<typename T, size_t size>
         T det(const Matrix<T, size, size>& mat) {
+#if 0
+            // TODO: Rethink logging/error handling
             printf("recursive version\n");
+#endif
             // create the minor matrices of rank size-1
             // expand along the first column
             T res = 0;
