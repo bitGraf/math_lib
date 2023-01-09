@@ -124,12 +124,12 @@ namespace rh {
             template<typename T>
             void create_transform_rotation(Matrix<T, 4, 4>& mat, T yaw, T pitch, T roll) {
                 T C1, C2, C3, S1, S2, S3;
-                C1 = cos(yaw * constants::deg2rad);
-                C2 = cos(pitch * constants::deg2rad);
-                C3 = cos(roll * constants::deg2rad);
-                S1 = sin(yaw * constants::deg2rad);
-                S2 = sin(pitch * constants::deg2rad);
-                S3 = sin(roll * constants::deg2rad);
+                C1 = cosf(yaw * constants::deg2rad);
+                C2 = cosf(pitch * constants::deg2rad);
+                C3 = cosf(roll * constants::deg2rad);
+                S1 = sinf(yaw * constants::deg2rad);
+                S2 = sinf(pitch * constants::deg2rad);
+                S3 = sinf(roll * constants::deg2rad);
 
                 mat = Matrix<T, 4, 4>(static_cast<T>(1.0)); // create identity matrix
                 mat[0][0] = C1 * C3 - S1 * S2 * S3;
