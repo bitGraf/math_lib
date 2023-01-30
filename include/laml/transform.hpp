@@ -121,12 +121,12 @@ namespace laml {
         template<typename T>
         void create_transform_rotation(Matrix<T, 4, 4>& mat, T yaw, T pitch, T roll) {
             T C1, C2, C3, S1, S2, S3;
-            C1 = cosf(yaw * constants::deg2rad);
-            C2 = cosf(pitch * constants::deg2rad);
-            C3 = cosf(roll * constants::deg2rad);
-            S1 = sinf(yaw * constants::deg2rad);
-            S2 = sinf(pitch * constants::deg2rad);
-            S3 = sinf(roll * constants::deg2rad);
+            C1 = cosf(yaw * constants::deg2rad<T>);
+            C2 = cosf(pitch * constants::deg2rad<T>);
+            C3 = cosf(roll * constants::deg2rad<T>);
+            S1 = sinf(yaw * constants::deg2rad<T>);
+            S2 = sinf(pitch * constants::deg2rad<T>);
+            S3 = sinf(roll * constants::deg2rad<T>);
 
             mat = Matrix<T, 4, 4>(constants::one<T>); // create identity matrix
             mat[0][0] = C1 * C3 - S1 * S2 * S3;
