@@ -82,37 +82,39 @@ namespace laml {
         // convert to quaternion
         template<typename T>
         Quaternion<T> quat_from_mat(const Matrix<T, 3, 3>& mat) {
-                       = constants::one<T>;
+                       const T one = constants::one<T>;
+                       const T two = constants::two<T>;
                        const T four = static_cast<T>(4.0);
+                       const T one_fourth = one / four;
                        T tr = trace(mat);
                        Quaternion<T> res;
                        if (tr > 0) {
-                           T S = sqrt(tr + 1.0) * 2.0; // S = 4*qw
-                           res.w = 0.25 * S;
+                           T S = sqrt(tr + one) * two; // S = 4*qw
+                           res.w = one_fourth * S;
                            res.x = (mat.c_32 - mat.c_23) / S;
                            res.y = (mat.c_13 - mat.c_31) / S;
                            res.z = (mat.c_21 - mat.c_12) / S;
                        }
                        else if ((mat.c_11 > mat.c_22) && (mat.c_11 > mat.c_33)) {
-                           T S = sqrt(1.0 + mat.c_11 - mat.c_22 - mat.c_33) * 2.0; // S = 4*qx
+                           T S = sqrt(one + mat.c_11 - mat.c_22 - mat.c_33) * two; // S = 4*qx
                            res.w = (mat.c_32 - mat.c_23) / S;
-                           res.x = 0.25 * S;
+                           res.x = one_fourth * S;
                            res.y = (mat.c_12 + mat.c_21) / S;
                            res.z = (mat.c_13 + mat.c_31) / S;
                        }
                        else if (mat.c_22 > mat.c_33) {
-                           T S = sqrt(1.0 + mat.c_22 - mat.c_11 - mat.c_33) * 2.0; // S = 4*qy
+                           T S = sqrt(one + mat.c_22 - mat.c_11 - mat.c_33) * two; // S = 4*qy
                            res.w = (mat.c_13 - mat.c_31) / S;
                            res.x = (mat.c_12 + mat.c_21) / S;
-                           res.y = 0.25 * S;
+                           res.y = one_fourth * S;
                            res.z = (mat.c_23 + mat.c_32) / S;
                        }
                        else {
-                           T S = sqrt(1.0 + mat.c_33 - mat.c_11 - mat.c_22) * 2.0; // S = 4*qz
+                           T S = sqrt(one + mat.c_33 - mat.c_11 - mat.c_22) * two; // S = 4*qz
                            res.w = (mat.c_21 - mat.c_12) / S;
                            res.x = (mat.c_13 + mat.c_31) / S;
                            res.y = (mat.c_23 + mat.c_32) / S;
-                           res.z = 0.25 * S;
+                           res.z = one_fourth * S;
                        }
                        return res;
         }
@@ -144,12 +146,12 @@ namespace laml {
         template<typename T>
         void create_transform_rotation(Matrix<T, 3, 3>& mat, T yaw, T pitch, T roll) {
             T C1, C2, C3, S1, S2, S3;
-            C1 = cos(yaw * constants::deg2rad);
-            C2 = cos(pitch * constants::deg2rad);
-            C3 = cos(roll * constants::deg2rad);
-            S1 = sin(yaw * constants::deg2rad);
-            S2 = sin(pitch * constants::deg2rad);
-            S3 = sin(roll * constants::deg2rad);
+            C1 = cos(yaw * constants::deg2rad<T>);
+            C2 = cos(pitch * constants::deg2rad<T>);
+            C3 = cos(roll * constants::deg2rad<T>);
+            S1 = sin(yaw * constants::deg2rad<T>);
+            S2 = sin(pitch * constants::deg2rad<T>);
+            S3 = sin(roll * constants::deg2rad<T>);
 
             mat = Matrix<T, 3, 3>(constants::one<T>); // create identity matrix
             mat[0][0] = C1 * C3 - S1 * S2 * S3;
