@@ -5,6 +5,9 @@
 
 namespace laml {
 
+    template<typename T>
+    constexpr T eps = static_cast<T>(1e-8);
+
     namespace constants {
 
         template<typename T>
