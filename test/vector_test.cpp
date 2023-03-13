@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <laml/vector.hpp>
+#include <laml/Vector.hpp>
 #include <random>
 
 TEST(Specializations, Vector) {

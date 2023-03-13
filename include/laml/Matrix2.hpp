@@ -1,7 +1,7 @@
 #ifndef __MATRIX_2_H
 #define __MATRIX_2_H
 
-#include <laml/matrix_base.hpp>
+#include <laml/Matrix_base.hpp>
 
 namespace laml {
 
@@ -62,7 +62,9 @@ namespace laml {
         T determinant = det(mat);
         const double tol = 1e-8;
         if (fabs(determinant) < tol) {
-            std::cout << "Cannot inverse matrix: determinant = " << determinant << std::endl;
+            #if 0
+                std::cout << "Cannot inverse matrix: determinant = " << determinant << std::endl;
+            #endif
             return mat;
         }
         Matrix<T, 2, 2> res(mat.c_22, -mat.c_21, -mat.c_12, mat.c_11);

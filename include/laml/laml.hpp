@@ -4,25 +4,18 @@
 // include all the standard headers anyone would need
 #include <laml.config.h>
 
-#include <laml/data_types.hpp>
+#include <laml/Data_types.hpp>
 
-#include <laml/vector.hpp>
+#include <laml/Vector.hpp>
 
-#include <laml/matrix_base.hpp>
-#include <laml/matrix2.hpp>
-#include <laml/matrix3.hpp>
-#include <laml/matrix4.hpp>
+#include <laml/Matrix_base.hpp>
+#include <laml/Matrix2.hpp>
+#include <laml/Matrix3.hpp>
+#include <laml/Matrix4.hpp>
 
-#include <laml/quaternion.hpp>
+#include <laml/Quaternion.hpp>
 
-#include <laml/constants.hpp>
-#include <laml/transform.hpp>
-
-namespace laml {
-    template<typename T>
-    bool epsilon_equal(T value, double target, double eps) {
-        return  (fabs(static_cast<double>(value) - target) < eps);
-    }
-}
+#include <laml/Constants.hpp>
+#include <laml/Transform.hpp>
 
 #endif //__LAML_H

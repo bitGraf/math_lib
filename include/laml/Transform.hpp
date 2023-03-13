@@ -388,9 +388,9 @@ namespace laml {
             forward_vec.z = -rot_mat.c_33;
 
             // ypr
-            rot_pitch = asin(-rot_mat.c_23) * constants::rad2deg;
-            rot_yaw = atan2(rot_mat.c_13, rot_mat.c_33) * constants::rad2deg;
-            rot_roll = atan2(-rot_mat.c_21, rot_mat.c_22) * constants::rad2deg;
+            rot_pitch = asin(-rot_mat.c_23) * constants::rad2deg<T>;
+            rot_yaw = atan2(rot_mat.c_13, rot_mat.c_33) * constants::rad2deg<T>;
+            rot_roll = atan2(-rot_mat.c_21, rot_mat.c_22) * constants::rad2deg<T>;
         }
 
         template<typename T>
@@ -419,8 +419,8 @@ namespace laml {
             forward_vec.z = -rot_mat.c_33;
 
             // ypr
-            rot_pitch = asin(-rot_mat.c_23) * constants::rad2deg;
-            rot_yaw = atan2(rot_mat.c_13, rot_mat.c_33) * constants::rad2deg;
+            rot_pitch = asin(-rot_mat.c_23) * constants::rad2deg<T>;
+            rot_yaw = atan2(rot_mat.c_13, rot_mat.c_33) * constants::rad2deg<T>;
         }
 
         template<typename T>
@@ -456,9 +456,9 @@ namespace laml {
             decompose(mat, rot_mat, trans_vec, scale_vec);
 
             // ypr
-            rot_pitch = asin(-rot_mat.c_23) * constants::rad2deg;
-            rot_yaw = atan2(rot_mat.c_13, rot_mat.c_33) * constants::rad2deg;
-            rot_roll = atan2(-rot_mat.c_21, rot_mat.c_22) * constants::rad2deg;
+            rot_pitch = asin(-rot_mat.c_23) * constants::rad2deg<T>;
+            rot_yaw = atan2(rot_mat.c_13, rot_mat.c_33) * constants::rad2deg<T>;
+            rot_roll = atan2(-rot_mat.c_21, rot_mat.c_22) * constants::rad2deg<T>;
         }
     }
 }

@@ -8,8 +8,8 @@
 #endif
 
 #include <laml/laml.hpp>
-#include <laml/vector.hpp>
-#include <laml/data_types.hpp>
+#include <laml/Vector.hpp>
+#include <laml/Data_types.hpp>
 
 
 namespace laml {
@@ -219,57 +219,6 @@ namespace laml {
         return res;
     }
 
-    // inverse - NOT FULLY IMPLEMENTED FOR ALL CASES
-    template<typename T, size_t rows, size_t cols,
-    class V = typename std::enable_if<rows==cols, T>::type>
-    Matrix<T, rows, cols> inverse(const Matrix<T, rows, cols>& mat) {
-        /*
-        * inv(m) = adj(m)/det(m)
-        * only valid if det(m) != 0, so calculate that first.
-        * 
-        * to calculate adj(m):
-        *  - transpose m ->mT
-        *  - replace every element (i,j) of mT with the det(minor(m,i,j))
-        *  - multiply every element by its cofactor (+/- 1 alternating)
-        */
-
-        T determinant = det(mat);
-        if (fabs(determinant) < 1e-8) {
-            // TODO: Remove all print statements in this code >.<
-#if 0
-            std::cout << "Cannot inverse matrix: determinant = " << determinant << std::endl;
-#endif
-            return mat;
-        }
-
-        Matrix<T, rows, cols> mat_transpose = laml::transpose(mat);
-		
-        Matrix<T, rows, cols> res;
-        for (size_t i = 0; i < cols; i++) {
-            for (size_t j = 0; j < rows; j++) {
-                T cofactor = (i + j) % 2 == 0 ? static_cast<T>(1.0) : static_cast<T>(-1.0);
-                res[i][j] = laml::det(laml::minor(mat_transpose, i, j)) * cofactor;
-            }
-        }
-
-        return res / determinant;
-    }
-
-    // minor matrix
-    template<typename T, size_t size>
-    Matrix<T, size-1, size-1> minor(const Matrix<T, size, size>& mat, size_t pick_col, size_t pick_row) {
-        Matrix<T, size - 1, size - 1> minor;
-        for (size_t i = 0; i < size - 1; i++) {
-            size_t new_i = (i + 1 > pick_col) ? i + 1 : i;
-            for (size_t j = 0; j < size - 1; j++) {
-                size_t new_j = (j + 1 > pick_row) ? j + 1 : j;
-
-                minor[i][j] = mat[new_i][new_j];
-            }
-        }
-        return minor;
-    }
-
     // determinant - recusrive method for arbitrary square matrix
     template<typename T, size_t size>
     T det(const Matrix<T, size, size>& mat) {
@@ -313,6 +262,57 @@ namespace laml {
             res[n] = mat[n][n];
         }
         return res;
+    }
+
+    // minor matrix
+    template<typename T, size_t size>
+    Matrix<T, size-1, size-1> minor(const Matrix<T, size, size>& mat, size_t pick_col, size_t pick_row) {
+        Matrix<T, size - 1, size - 1> minor;
+        for (size_t i = 0; i < size - 1; i++) {
+            size_t new_i = (i + 1 > pick_col) ? i + 1 : i;
+            for (size_t j = 0; j < size - 1; j++) {
+                size_t new_j = (j + 1 > pick_row) ? j + 1 : j;
+
+                minor[i][j] = mat[new_i][new_j];
+            }
+        }
+        return minor;
+    }
+
+    // inverse - NOT FULLY IMPLEMENTED FOR ALL CASES
+    template<typename T, size_t rows, size_t cols,
+    class V = typename std::enable_if<rows==cols, T>::type>
+    Matrix<T, rows, cols> inverse(const Matrix<T, rows, cols>& mat) {
+        /*
+        * inv(m) = adj(m)/det(m)
+        * only valid if det(m) != 0, so calculate that first.
+        * 
+        * to calculate adj(m):
+        *  - transpose m ->mT
+        *  - replace every element (i,j) of mT with the det(minor(m,i,j))
+        *  - multiply every element by its cofactor (+/- 1 alternating)
+        */
+
+        T determinant = det(mat);
+        if (fabs(determinant) < 1e-8) {
+            // TODO: Remove all print statements in this code >.<
+#if 0
+            std::cout << "Cannot inverse matrix: determinant = " << determinant << std::endl;
+#endif
+            return mat;
+        }
+
+        Matrix<T, rows, cols> mat_transpose = laml::transpose(mat);
+		
+        Matrix<T, rows, cols> res;
+        for (size_t i = 0; i < cols; i++) {
+            for (size_t j = 0; j < rows; j++) {
+                T cofactor = (i + j) % 2 == 0 ? static_cast<T>(1.0) : static_cast<T>(-1.0);
+                res[i][j] = laml::det(laml::minor(mat_transpose, i, j)) * cofactor;
+            }
+        }
+
+        return res / determinant;
     }
 
     // Specializations

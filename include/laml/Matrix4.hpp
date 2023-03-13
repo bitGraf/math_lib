@@ -1,7 +1,7 @@
 #ifndef __MATRIX_4_H
 #define __MATRIX_4_H
 
-#include <laml/matrix_base.hpp>
+#include <laml/Matrix_base.hpp>
 
 namespace laml {
 

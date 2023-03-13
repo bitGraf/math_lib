@@ -79,7 +79,7 @@ namespace laml {
     }
 
     template<typename T>
-    Quaternion<T> operator-(const Quaternion<T>& vec, const Quaternion<T>& other) {
+    Quaternion<T> operator-(const Quaternion<T>& quat, const Quaternion<T>& other) {
         return Quaternion<T>(
             quat.x - other.x,
             quat.y - other.y,
@@ -179,7 +179,7 @@ namespace laml {
         if (fabs(1.0 - cos_omega) < eps) {
             return q1;
         }
-        T omega = acos(std::clamp(cos_omega, -1.0f, 1.0f));
+        T omega = acos(laml::clamp(cos_omega, -1.0f, 1.0f));
         T s_omega_inv = 1.0 / sin(omega);
         Quaternion<T> q = (static_cast<float>(sin((1.0 - factor) * omega) * s_omega_inv) * q1) + (static_cast<float>(sin(factor * omega) * s_omega_inv) * q2);
         return q;

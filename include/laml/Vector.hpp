@@ -7,7 +7,8 @@
 #include <ostream>
 #endif
 
-#include <laml/data_types.hpp>
+#include <laml/Data_types.hpp>
+#include <math.h>
 
 namespace laml {
 

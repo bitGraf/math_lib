@@ -1,7 +1,7 @@
 #ifndef __MATRIX_3_H
 #define __MATRIX_3_H
 
-#include <laml/matrix_base.hpp>
+#include <laml/Matrix_base.hpp>
 
 namespace laml {
 
@@ -92,7 +92,9 @@ namespace laml {
 
         T determinant = det(mat);
         if (fabs(determinant) < 1e-8) {
-            std::cout << "Cannot inverse matrix: determinant = " << determinant << std::endl;
+            #if 0
+                std::cout << "Cannot inverse matrix: determinant = " << determinant << std::endl;
+            #endif
             return mat;
         }
 

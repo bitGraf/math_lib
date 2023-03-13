@@ -25,6 +25,11 @@ namespace laml {
         template<typename T>
         constexpr T two = static_cast<T>(2.0);
     }
+
+    template<typename T>
+    bool epsilon_equal(T value, double target, double eps) {
+        return  (abs<T>(static_cast<double>(value) - target) < eps);
+    }
 }
 
 #endif

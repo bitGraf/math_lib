@@ -88,15 +88,15 @@ if(IS_TOPLEVEL_PROJECT)
       # the actual library files
       include/laml/laml.hpp
       #include/laml/utils.hpp
-      include/laml/data_types.hpp
-      include/laml/constants.hpp
-      include/laml/vector.hpp
-      include/laml/matrix_base.hpp
-      include/laml/matrix2.hpp
-      include/laml/matrix3.hpp
-      include/laml/matrix4.hpp
-      include/laml/quaternion.hpp
-      include/laml/transform.hpp
+      include/laml/Data_types.hpp
+      include/laml/Constants.hpp
+      include/laml/Vector.hpp
+      include/laml/Matrix_base.hpp
+      include/laml/Matrix2.hpp
+      include/laml/Matrix3.hpp
+      include/laml/Matrix4.hpp
+      include/laml/Quaternion.hpp
+      include/laml/Transform.hpp
     )
   target_link_libraries(${PROJECT_NAME}_dev INTERFACE laml)
   target_include_directories(${PROJECT_NAME}_dev PRIVATE ${CMAKE_CURRENT_LIST_DIR}/include)
