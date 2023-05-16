@@ -27,6 +27,14 @@ namespace laml {
     }
 
     template<typename T>
+    T abs(T value) {
+        if (value > 0)
+            return value;
+        else
+            return -value;
+    }
+
+    template<typename T>
     bool epsilon_equal(T value, double target, double eps) {
         return  (abs<T>(static_cast<double>(value) - target) < eps);
     }
