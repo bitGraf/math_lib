@@ -35,6 +35,11 @@ namespace laml {
     }
 
     template<typename T>
+    T clamp(T& v, T min_val, T max_val) {
+        return v > max_val ? max_val : (v < min_val ? min_val : v);
+    }
+
+    template<typename T>
     bool epsilon_equal(T value, double target, double eps) {
         return  (abs<T>(static_cast<double>(value) - target) < eps);
     }
