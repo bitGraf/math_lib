@@ -34,6 +34,14 @@ namespace laml {
         template<class ... U, class V = typename std::enable_if<sizeof...(U) + 1 == size, T>::type>
         constexpr Vector(T first, U... next) noexcept : _data { first, next... } {}
 
+        // Initialize with a Vector<> of a different type
+        template<typename T_other>
+        Vector(const Vector<T_other, size>& other) {
+            for (size_t n = 0; n < size; n++) {
+                _data[n] = static_cast<T>(other[n]);
+            }
+        }
+
         // Initialize with single value for all
         template<class V = typename std::enable_if<size != 1, T>::type>
         Vector(T value) {
@@ -353,6 +361,9 @@ namespace laml {
         constexpr Vector(T _x) : _data { _x, _x } {}
         Vector(const float* in_data) : _data { in_data[0], in_data[1] } {}
 
+        template<typename T_other>
+        Vector(const Vector<T_other, 2>& other) : _data {static_cast<T>(other.x), static_cast<T>(other.y)} {}
+
         union {
             T _data[2];
             struct { T x, y; };
@@ -371,6 +382,9 @@ namespace laml {
         constexpr Vector(T _x, T _y, T _z) : _data { _x, _y, _z } {}
         constexpr Vector(T _x) : _data { _x, _x, _x } {}
         Vector(const float* in_data) : _data { in_data[0], in_data[1], in_data[2] } {}
+
+        template<typename T_other>
+        Vector(const Vector<T_other, 3>& other) : _data {static_cast<T>(other.x), static_cast<T>(other.y), static_cast<T>(other.z)} {}
 
         union {
             T _data[3];
@@ -391,6 +405,9 @@ namespace laml {
         constexpr Vector(T _x) : _data { _x, _x, _x, _x } {}
         Vector(const float* in_data) : _data { in_data[0], in_data[1], in_data[2], in_data[3] } {}
         constexpr Vector(const Vector<T, 3>& v, T w) : _data { v.x, v.y, v.z, w } {}
+
+        template<typename T_other>
+        Vector(const Vector<T_other, 4>& other) : _data {static_cast<T>(other.x), static_cast<T>(other.y), static_cast<T>(other.z), static_cast<T>(other.w)} {}
 
         union {
             T _data[4];
