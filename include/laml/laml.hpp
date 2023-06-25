@@ -18,4 +18,6 @@
 #include <laml/Constants.hpp>
 #include <laml/Transform.hpp>
 
+#include <laml/Functions.hpp>
+
 #endif //__LAML_H

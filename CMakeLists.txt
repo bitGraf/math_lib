@@ -97,6 +97,7 @@ if(IS_TOPLEVEL_PROJECT)
       include/laml/Matrix4.hpp
       include/laml/Quaternion.hpp
       include/laml/Transform.hpp
+      include/laml/Functions.hpp
     )
   target_link_libraries(${PROJECT_NAME}_dev INTERFACE laml)
   target_include_directories(${PROJECT_NAME}_dev PRIVATE ${CMAKE_CURRENT_LIST_DIR}/include)

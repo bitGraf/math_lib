@@ -25,24 +25,6 @@ namespace laml {
         template<typename T>
         constexpr T two = static_cast<T>(2.0);
     }
-
-    template<typename T>
-    T abs(T value) {
-        if (value > 0)
-            return value;
-        else
-            return -value;
-    }
-
-    template<typename T>
-    T clamp(T& v, T min_val, T max_val) {
-        return v > max_val ? max_val : (v < min_val ? min_val : v);
-    }
-
-    template<typename T>
-    bool epsilon_equal(T value, double target, double eps) {
-        return  (abs<T>(static_cast<double>(value) - target) < eps);
-    }
 }
 
 #endif
