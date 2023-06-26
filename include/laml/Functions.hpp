@@ -32,8 +32,18 @@ namespace laml {
     }
 
     template<typename T>
+    T sin(T x) {
+        return  ::sin(x);
+    }
+
+    template<typename T>
     T sind(T x) {
         return  ::sin(x * laml::constants::deg2rad<T>);
+    }
+
+    template<typename T>
+    T cos(T x) {
+        return  ::cos(x);
     }
 
     template<typename T>
