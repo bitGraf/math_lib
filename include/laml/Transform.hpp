@@ -56,7 +56,7 @@ namespace laml {
             for (size_t i = 0; i < size; i++) {
                 res[i] = constants::zero<T>;
                 for (size_t j = 0; j < size; j++) {
-                    res[i] = res[i] + vec[j] * mat[i][j];
+                    res[i] = res[i] + vec[j] * mat[j][i];
                 }
             }
             return res;
