@@ -167,6 +167,30 @@ namespace laml {
             mat[2][2] = C1 * C2;
         }
         template<typename T>
+        void create_ZXZ_rotation(Matrix<T, 3, 3>& mat, T alpha, T beta, T gamma) {
+            T C1, C2, C3, S1, S2, S3;
+            C1 = cosd(alpha);
+            C2 = cosd(beta);
+            C3 = cosd(gamma);
+            S1 = sind(alpha);
+            S2 = sind(beta);
+            S3 = sind(gamma);
+
+            // mat[j][i] = c_ij (zero-indexed)
+            mat = Matrix<T, 3, 3>(constants::one<T>); // create identity matrix
+            mat[0][0] = C1*C3 - S1*C2*S3;
+            mat[0][1] = S1*C3 + C1*C2*S3;
+            mat[0][2] = S2*S3;
+
+            mat[1][0] = -C1*S3 - S1*C2*C3;
+            mat[1][1] = C1*C2*C3 - S1*S3;
+            mat[1][2] = S2*C3;
+
+            mat[2][0] = S1*S2;
+            mat[2][1] = -C1*S2;
+            mat[2][2] = C2;
+        }
+        template<typename T>
         void create_transform_rotation(Matrix<T, 4, 4>& mat, const Quaternion<T>& rot_quat) {
             mat = Matrix<T, 4, 4>(constants::one<T>);
             mat[0][0] = 1 - 2 * (rot_quat.y * rot_quat.y) - 2 * (rot_quat.z * rot_quat.z);
