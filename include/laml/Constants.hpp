@@ -1,7 +1,9 @@
 #ifndef __LAML_CONSTANTS_H
 #define __LAML_CONSTANTS_H
 
-#include <laml.config.h>
+#ifdef MADE_WITH_CMAKE
+    #include <laml.config.h>
+#endif
 
 namespace laml {
 

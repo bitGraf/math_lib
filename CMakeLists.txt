@@ -30,6 +30,7 @@ target_include_directories(
                  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
 target_compile_features(laml INTERFACE cxx_std_17)
+target_compile_definitions(laml INTERFACE MADE_WITH_CMAKE)
 configure_file(
     "${PROJECT_SOURCE_DIR}/cmake/laml.config.h.in" 
     "${PROJECT_SOURCE_DIR}/include/laml.config.h")

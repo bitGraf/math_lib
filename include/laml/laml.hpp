@@ -2,7 +2,9 @@
 #define __LAML_H
 
 // include all the standard headers anyone would need
-#include <laml.config.h>
+#ifdef MADE_WITH_CMAKE
+    #include <laml.config.h>
+#endif
 
 #include <laml/Data_types.hpp>
 
