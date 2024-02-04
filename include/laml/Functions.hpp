@@ -27,7 +27,7 @@ namespace laml {
     }
 
     template<typename T>
-    T clamp(T& v, T min_val, T max_val) {
+    T clamp(T v, T min_val, T max_val) {
         return v > max_val ? max_val : (v < min_val ? min_val : v);
     }
 
