@@ -484,6 +484,31 @@ namespace laml {
             rot_yaw = atan2(rot_mat.c_13, rot_mat.c_33) * constants::rad2deg<T>;
             rot_roll = atan2(-rot_mat.c_21, rot_mat.c_22) * constants::rad2deg<T>;
         }
+
+        template<typename T>
+        void lookAt(Matrix<T,4,4>& result, const Vector<T,3>& eye, const Vector<T,3>& center, const Vector<T,3>& up) {
+            Vector<T,3> f = laml::normalize(center - eye);
+            Vector<T,3> u = laml::normalize(up);
+            Vector<T,3> s = laml::normalize(laml::cross(f, u));
+            u = laml::cross(s, f);
+
+            laml::identity(result);
+            result.c_11 = s.x;
+            result.c_21 = s.y;
+            result.c_31 = s.z;
+
+            result.c_12 = u.x;
+            result.c_22 = u.y;
+            result.c_32 = u.z;
+
+            result.c_13 = -f.x;
+            result.c_23 = -f.y;
+            result.c_33 = -f.z;
+
+            result.c_14 = -laml::dot(s, eye);
+            result.c_14 = -laml::dot(u, eye);
+            result.c_14 =  laml::dot(f, eye);
+        }
     }
 }
 
