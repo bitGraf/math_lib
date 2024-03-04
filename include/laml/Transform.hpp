@@ -506,8 +506,8 @@ namespace laml {
             result.c_33 = -f.z;
 
             result.c_14 = -laml::dot(s, eye);
-            result.c_14 = -laml::dot(u, eye);
-            result.c_14 =  laml::dot(f, eye);
+            result.c_24 = -laml::dot(u, eye);
+            result.c_34 =  laml::dot(f, eye);
         }
     }
 }

@@ -8,6 +8,7 @@
 #endif
 
 #include <laml/Data_types.hpp>
+#include <laml/Constants.hpp>
 #include <math.h>
 
 namespace laml {
@@ -294,6 +295,9 @@ namespace laml {
     template<typename T, size_t size>
     Vector<T, size> normalize(const Vector<T, size>& v) {
         T mag = length(v);
+        if (laml::abs(mag) < laml::eps<T>) {
+            return Vector<T, size>(static_cast<T>(0.0));
+        }
         return (v / mag);
     }
 
