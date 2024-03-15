@@ -178,6 +178,7 @@ namespace laml {
     // Free functions
     template<typename T, size_t size>
     void identity(Matrix<T, size, size>& mat) {
+        fill(mat, static_cast<T>(0.0));
         for (size_t i = 0; i < size; i++) {
             mat[i][i] = static_cast<T>(1.0);
         }
