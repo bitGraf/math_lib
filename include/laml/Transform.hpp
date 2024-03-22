@@ -311,6 +311,40 @@ namespace laml {
             create_transform(mat, rot_mat, trans_mat);
         }
 
+
+        template<typename T>
+        laml::Quat quat_from_axis_angle(const laml::Vec3& axis, T angle) {
+            // angle in degrees
+            T half_angle = angle * static_cast<T>(0.5);
+            T c = laml::cosd(half_angle);
+            T s = laml::sind(half_angle);
+
+            laml::Quat ret(s*axis.x, s*axis.y, s*axis.z, c);
+
+            return laml::normalize(ret);
+        }
+
+        template<typename T>
+        laml::Quat quat_from_ypr(T yaw, T pitch, T roll) {
+            // angles in degrees
+
+            laml::Mat3 rot_mat;
+            laml::transform::create_transform_rotation(rot_mat, yaw, pitch, roll);
+
+            laml::Quat ret = laml::transform::quat_from_mat(rot_mat);
+
+            return laml::normalize(ret);
+        }
+
+        template<typename T>
+        laml::Vec3 dir_from_yp(T yaw, T pitch) {
+            // angles in degrees
+
+            laml::Mat3 rot_mat;
+            laml::transform::create_transform_rotation(rot_mat, yaw, pitch, laml::constants::zero<T>);
+            return -laml::normalize(rot_mat[2]); // forward is -Z
+        }
+
         //template<typename T>
         //void create_transform(Matrix<T, 4, 4>& mat, const Matrix<T, 3, 3>& rot_mat3, const Vector<T, 3>& trans_vec) {}
         //template<typename T>

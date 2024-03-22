@@ -141,6 +141,10 @@ namespace laml {
     //    return  ::atan2(x, y) * laml::constants::rad2deg<T>;
     //}
 
+    inline Vec3 rgb8_to_rgba32f(uint8 r, uint8 g, uint8 b) {
+        return laml::Vec3(((real32)r) / 255.0f, ((real32)g) / 255.0f, ((real32)b) / 255.0f);
+    }
+
 }
 
 #endif // __LAML_FUNCTIONS_H
