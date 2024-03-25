@@ -5,14 +5,14 @@
 
 namespace laml {
     namespace transform {
-
+        
         template<typename T>
         void create_projection_orthographic(Matrix<T, 4, 4>& mat, T left, T right, T bottom, T top, T znear, T zfar) {
             laml::fill(mat, constants::zero<T>);
 
             mat[0][0] = constants::two<T> / (right - left);
             mat[1][1] = constants::two<T> / (top - bottom);
-            mat[2][2] = constants::two<T> / (zfar - znear);
+            mat[2][2] = -constants::two<T> / (zfar - znear);
 
             mat[3][0] = -(right + left) / (right - left);
             mat[3][1] = -(top + bottom) / (top - bottom);
@@ -519,12 +519,36 @@ namespace laml {
             rot_roll = atan2(-rot_mat.c_21, rot_mat.c_22) * constants::rad2deg<T>;
         }
 
+        // calculates a transform matrix that puts the obj at 'start' and looks at 'target'
+        // note: this returns a transformation matrix, not a view matrix.
+        //       use create_view_matrix_from_transform() if you need that
         template<typename T>
-        void lookAt(Matrix<T,4,4>& result, const Vector<T,3>& eye, const Vector<T,3>& center, const Vector<T,3>& up) {
+        void lookAt(Matrix<T,4,4>& transform, const Vector<T,3>& start, const Vector<T,3>& target, const Vector<T,3>& ref_up) {
+            Vector<T,3> forward = laml::normalize(target - start);
+            Vector<T,3> right   = laml::normalize(laml::cross(forward, ref_up));
+            Vector<T,3> up      = laml::normalize(laml::cross(right, forward));
+
+            laml::identity(transform);
+            transform.c_11 = right.x;
+            transform.c_21 = right.y;
+            transform.c_31 = right.z;
+
+            transform.c_12 = up.x;
+            transform.c_22 = up.y;
+            transform.c_32 = up.z;
+
+            transform.c_13 = -forward.x;
+            transform.c_23 = -forward.y;
+            transform.c_33 = -forward.z;
+
+            transform.c_14 = start.x;
+            transform.c_24 = start.y;
+            transform.c_34 = start.z;
+
+            /* glm::lookAt() -> returns a view matrix
             Vector<T,3> f = laml::normalize(center - eye);
-            Vector<T,3> u = laml::normalize(up);
-            Vector<T,3> s = laml::normalize(laml::cross(f, u));
-            u = laml::cross(s, f);
+            Vector<T,3> s = laml::normalize(laml::cross(f, up));
+            Vector<T,3> u = laml::normalize(laml::cross(s, f));
 
             laml::identity(result);
             result.c_11 = s.x;
@@ -542,6 +566,7 @@ namespace laml {
             result.c_14 = -laml::dot(s, eye);
             result.c_24 = -laml::dot(u, eye);
             result.c_34 =  laml::dot(f, eye);
+            */
         }
     }
 }
