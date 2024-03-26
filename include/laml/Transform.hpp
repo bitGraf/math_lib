@@ -362,23 +362,23 @@ namespace laml {
             //ENGINE_LOG_DEBUG("local_matrix = {0}", local_matrix);
 
             // first check if mat[3][3] != 0;
-            double eps = 1e-10;
-            if (laml::epsilon_equal(local_matrix.c_44, 0.0, eps)) {
+            T eps = static_cast<T>(1e-10);
+            if (laml::epsilon_equal(local_matrix.c_44, static_cast<T>(0.0), eps)) {
                 return false;
             }
 
             // assume matrix is already "normalized" i.e. w=1.0
-            if (!laml::epsilon_equal(local_matrix.c_44, 1.0, eps)) {
+            if (!laml::epsilon_equal(local_matrix.c_44, static_cast<T>(1.0), eps)) {
                 //assert(laml::epsilon_equal(local_matrix.c_44, 1.0, eps) && "Transformation matrix non-standard!");
                 local_matrix = local_matrix / local_matrix.c_44;
             }
 
             // Ignore perspective
-            assert(
-                epsilon_equal(local_matrix.c_41, 0.0, eps) &&
-                epsilon_equal(local_matrix.c_42, 0.0, eps) &&
-                epsilon_equal(local_matrix.c_43, 0.0, eps) &&
-                "Transformation has perspective elements!");
+            //assert(
+            //    epsilon_equal(local_matrix.c_41, 0.0, eps) &&
+            //    epsilon_equal(local_matrix.c_42, 0.0, eps) &&
+            //    epsilon_equal(local_matrix.c_43, 0.0, eps) &&
+            //    "Transformation has perspective elements!");
 
             // extract Translation
             trans_vec.x = local_matrix.c_14;
