@@ -9,141 +9,51 @@
 
 #include <laml/Data_types.hpp>
 #include <laml/Constants.hpp>
-#include <math.h>
+#include <laml/Vector3.hpp>
 
 namespace laml {
 
-    template<typename T>
-    T abs(T value) {
-        if (value > 0)
-            return value;
-        else
-            return -value;
-    }
+    real_t abs(real_t value);
 
-    template <typename T> 
-    int sign(T val) {
-        return (T(0) < val) - (val < T(0));
-    }
+    int sign(real_t val);
 
-    template<typename T>
-    T clamp(T v, T min_val, T max_val) {
-        return v > max_val ? max_val : (v < min_val ? min_val : v);
-    }
+    real_t clamp(real_t v, real_t min_val, real_t max_val);
 
-    template<typename T>
-    bool epsilon_equal(T value, T target, T eps) {
-        return  (abs<T>(value - target) < eps);
-    }
+    bool epsilon_equal(real_t value, real_t target, real_t eps);
 
-    template<typename T>
-    T sin(T x) {
-        return  ::sin(x);
-    }
-    template<typename T>
-    T sind(T x) {
-        return  ::sin(x * laml::constants::deg2rad<T>);
-    }
-    template<typename T>
-    T cos(T x) {
-        return  ::cos(x);
-    }
-    template<typename T>
-    T cosd(T x) {
-        return  ::cos(x * laml::constants::deg2rad<T>);
-    }
-    template<typename T>
-    T tan(T x) {
-        return  ::tan(x);
-    }
-    template<typename T>
-    T tand(T x) {
-        return  ::tan(x * laml::constants::deg2rad<T>);
-    }
+    real_t sin(real_t x);
+    real_t sind(real_t x);
+    real_t cos(real_t x);
+    real_t cosd(real_t x);
+    real_t tan(real_t x);
+    real_t tand(real_t x);
 
-
-    template<typename T>
-    T asin(T x) {
-        return  ::asin(x);
-    }
-    template<typename T>
-    T asind(T x) {
-        return  ::asin(x) * laml::constants::rad2deg<T>;
-    }
-    template<typename T>
-    T acos(T x) {
-        return  ::acos(x);
-    }
-    template<typename T>
-    T acosd(T x) {
-        return  ::acos(x) * laml::constants::rad2deg<T>;
-    }
-    template<typename T>
-    T atan(T x) {
-        return  ::atan(x);
-    }
-    template<typename T>
-    T atand(T x) {
-        return  ::atan(x) * laml::constants::rad2deg<T>;
-    }
-    template<typename T>
-    T atan2(T x, T y) {
-        return  ::atan2(x, y);
-    }
-    template<typename T>
-    T atan2d(T x, T y) {
-        return  ::atan2(x, y) * laml::constants::rad2deg<T>;
-    }
+    real_t asin(real_t x);
+    real_t asind(real_t x);
+    real_t acos(real_t x);
+    real_t acosd(real_t x);
+    real_t atan(real_t x);
+    real_t atand(real_t x);
+    real_t atan2(real_t x, real_t y);
+    real_t atan2d(real_t x, real_t y);
 
     // safe versions within a tolerance
-    template<typename T>
-    T asin_safe(T x, T tol) {
-        if (x > T( 1.0) && x < (T( 1.0) + tol)) x = T( 1.0);
-        if (x < T(-1.0) && x > (T(-1.0) - tol)) x = T(-1.0);
-        return  ::asin(x);
-    }
-    template<typename T>
-    T asind_safe(T x, T tol) {
-        if (x > T( 1.0) && x < (T( 1.0) + tol)) x = T( 1.0);
-        if (x < T(-1.0) && x > (T(-1.0) - tol)) x = T(-1.0);
-        return  ::asin(x) * laml::constants::rad2deg<T>;
-    }
-    template<typename T>
-    T acos_safe(T x, T tol) {
-        if (x > T( 1.0) && x < (T( 1.0) + tol)) x = T( 1.0);
-        if (x < T(-1.0) && x > (T(-1.0) - tol)) x = T(-1.0);
-        return  ::acos(x);
-    }
-    template<typename T>
-    T acosd_safe(T x, T tol) {
-        if (x > T( 1.0) && x < (T( 1.0) + tol)) x = T( 1.0);
-        if (x < T(-1.0) && x > (T(-1.0) - tol)) x = T(-1.0);
-        return  ::acos(x) * laml::constants::rad2deg<T>;
-    }
-    template<typename T>
-    T atan_safe(T x, T tol) {
-        if (x > T( 1.0) && x < (T( 1.0) + tol)) x = T( 1.0);
-        if (x < T(-1.0) && x > (T(-1.0) - tol)) x = T(-1.0);
-        return  ::atan(x);
-    }
-    template<typename T>
-    T atand_safe(T x, T tol) {
-        if (x > T( 1.0) && x < (T( 1.0) + tol)) x = T( 1.0);
-        if (x < T(-1.0) && x > (T(-1.0) - tol)) x = T(-1.0);
-        return  ::atan(x) * laml::constants::rad2deg<T>;
-    }
-    //template<typename T>
-    //T atan2_safe(T x, T y) {
+    real_t asin_safe(real_t x, real_t tol);
+    real_t asind_safe(real_t x, real_t tol);
+    real_t acos_safe(real_t x, real_t tol);
+    real_t acosd_safe(real_t x, real_t tol);
+    real_t atan_safe(real_t x, real_t tol);
+    real_t atand_safe(real_t x, real_t tol);
+    //template<typename real_t>
+    //real_t atan2_safe(real_t x, real_t y) {
     //    return  ::atan2(x, y);
     //}
-    //template<typename T>
-    //T atan2d_safe(T x, T y) {
-    //    return  ::atan2(x, y) * laml::constants::rad2deg<T>;
+    //template<typename real_t>
+    //real_t atan2d_safe(real_t x, real_t y) {
+    //    return  ::atan2(x, y) * laml::constants::rad2deg<real_t>;
     //}
 
-    inline Vec3 rgb8_to_rgba32f(uint8 r, uint8 g, uint8 b) {
-        return laml::Vec3(((real32)r) / 255.0f, ((real32)g) / 255.0f, ((real32)b) / 255.0f);
-    }
+    inline Vector3 rgb8_to_rgba32f(uint8 r, uint8 g, uint8 b);
 
 }
 

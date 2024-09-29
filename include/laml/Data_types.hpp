@@ -24,4 +24,6 @@ typedef double real64;
 
 #endif
 
+typedef real32 real_t;
+
 #endif // __LAML_DATA_TYPES_H
