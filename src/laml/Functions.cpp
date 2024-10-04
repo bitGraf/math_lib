@@ -19,6 +19,17 @@ namespace laml {
         return v > max_val ? max_val : (v < min_val ? min_val : v);
     }
 
+    real_t map(real_t v, real_t min_val, real_t max_val) {
+        real_t range = max_val - min_val;
+        while (v < min_val) {
+            v += range;
+        }
+        while (v > max_val) {
+            v -= range;
+        }
+        return v;
+    }
+
     bool epsilon_equal(real_t value, real_t target, real_t eps) {
         return  (abs(value - target) < eps);
     }

@@ -18,6 +18,7 @@ namespace laml {
     int sign(real_t val);
 
     real_t clamp(real_t v, real_t min_val, real_t max_val);
+    real_t map(real_t v, real_t min_val, real_t max_val);
 
     bool epsilon_equal(real_t value, real_t target, real_t eps);
 
