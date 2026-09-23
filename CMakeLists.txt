@@ -29,3 +29,4 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${OUTPUT_DIR})
 message(STATUS "Build files going into: ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
 
 add_subdirectory(laml)
+#add_subdirectory(test)

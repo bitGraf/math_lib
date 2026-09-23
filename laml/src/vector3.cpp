@@ -1,7 +1,6 @@
-#include <laml/Vector3.hpp>
+#include <laml/vector3.h>
 
-#include <laml/Constants.hpp>
-#include <laml/Functions.hpp>
+#include <laml/constants.h>
 #include <math.h>
 
 namespace laml {
@@ -35,26 +34,26 @@ namespace laml {
      * These are all component-wise operations
      * */
     Vector3 operator+(const Vector3& vec, const Vector3& other) {
-        return Vector3(vec.x+other.x, vec.y+other.y, vec.z+other.z);
+        return { vec.x+other.x, vec.y+other.y, vec.z+other.z };
     }
 
     Vector3 operator-(const Vector3& vec, const Vector3& other) {
-        return Vector3(vec.x-other.x, vec.y-other.y, vec.z-other.z);
+        return { vec.x-other.x, vec.y-other.y, vec.z-other.z };
     }
 
     Vector3 operator*(const Vector3& vec, const Vector3& other) {
-        return Vector3(vec.x*other.x, vec.y*other.y, vec.z*other.z);
+        return { vec.x*other.x, vec.y*other.y, vec.z*other.z };
     }
 
     Vector3 operator/(const Vector3& vec, const Vector3& other) {
-        return Vector3(vec.x/other.x, vec.y/other.y, vec.z/other.z);
+        return { vec.x/other.x, vec.y/other.y, vec.z/other.z };
     }
 
     /*
      * Unary operators
      */
     Vector3 operator-(const Vector3& vec) {
-        return Vector3(-vec.x, -vec.y, -vec.z);
+        return { -vec.x, -vec.y, -vec.z };
     }
 
     /* Scaling operators
@@ -62,15 +61,15 @@ namespace laml {
      * These are all component-wise operations
      * */
     Vector3 operator*(const Vector3& vec, const real_t& factor) {
-        return Vector3(vec.x*factor, vec.y*factor, vec.z*factor);
+        return { vec.x*factor, vec.y*factor, vec.z*factor };
     }
 
     Vector3 operator/(const Vector3& vec, const real_t& factor) {
-        return Vector3(vec.x/factor, vec.y/factor, vec.z/factor);
+        return { vec.x/factor, vec.y/factor, vec.z/factor };
     }
 
     Vector3 operator*(const real_t& factor, const Vector3& vec) {
-        return Vector3(factor*vec.x, factor*vec.y, factor*vec.z);
+        return { factor*vec.x, factor*vec.y, factor*vec.z };
     }
 
 #ifdef LAML_STD_INCLUDE
@@ -115,11 +114,11 @@ namespace laml {
     }
 
     Vector3 cross(const Vector3& v1, const Vector3& v2) {
-        Vector3 res;
-        res[0] = v1[1] * v2[2] - v1[2] * v2[1];
-        res[1] = v1[2] * v2[0] - v1[0] * v2[2];
-        res[2] = v1[0] * v2[1] - v1[1] * v2[0];
-        return res;
+        return {
+        	v1.y * v2.z - v1.z * v2.y,
+        	v1.z * v2.x - v1.x * v2.z,
+        	v1.x * v2.y - v1.y * v2.x
+		};
     }
 
     real_t length_sq(const Vector3& v) {
@@ -132,10 +131,10 @@ namespace laml {
 
     Vector3 normalize(const Vector3& v) {
         real_t mag = length(v);
-        if (laml::abs(mag) < laml::eps) {
-            return Vector3();
+        if (std::abs(mag) < laml::eps) {
+            return {};
         }
-        return (v / mag);
+        return { v.x/mag, v.y/mag, v.z/mag };
     }
 
     real_t min(const Vector3& v) {
@@ -155,28 +154,26 @@ namespace laml {
     }
 
     Vector3 abs(const Vector3& v) {
-        Vector3 res;
-        for (size_t n = 0; n < 3; n++) {
-            res[n] = v[n] > static_cast<real_t>(0.0) ? v[n] : -v[n];
-        }
-        return res;
+        return { 
+			std::abs(v.x), 
+			std::abs(v.y),
+			std::abs(v.z)
+		};
     }
 
     Vector3 clamp(const Vector3& v, real_t min_val, real_t max_val) {
-        Vector3 res;
-        for (size_t n = 0; n < 3; n++) {
-            res[n] = v[n] > max_val ? max_val : (v[n] < min_val ? min_val : v[n]);
-        }
-        return res;
+        return {
+			v.x > max_val ? max_val : (v.x < min_val ? min_val : v.x),
+			v.y > max_val ? max_val : (v.y < min_val ? min_val : v.y),
+			v.z > max_val ? max_val : (v.z < min_val ? min_val : v.z)
+		};
     }
 
     Vector3 lerp(const Vector3& v1, const Vector3& v2, real_t factor) {
-        return v2 * factor + v1 * (static_cast<real_t>(1.0) - factor);
+		return {
+			v2.x*factor + v1.x*(static_cast<real_t>(1.0) - factor),
+			v2.x*factor + v1.x*(static_cast<real_t>(1.0) - factor),
+			v2.z*factor + v1.z*(static_cast<real_t>(1.0) - factor)
+		};
     }
-
-
-    // Useful shorthands
-    typedef float Scalar;
-    typedef Vector3 Vec3;
-
 }

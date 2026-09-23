@@ -1,9 +1,8 @@
-#include <laml/Vector.hpp>
+#include <laml/vector2.h>
 
-#include <laml/Constants.hpp>
-#include <laml/Functions.hpp>
-#include <math.h>
+#include <laml/constants.h>
 
+#include <cmath>
 #include <stdexcept>
 
 namespace laml {
@@ -45,26 +44,26 @@ namespace laml {
      * These are all component-wise operations
      * */
     Vector2 operator+(const Vector2& vec, const Vector2& other) {
-        return Vector2(vec.x+other.x, vec.y+other.y);
+        return { vec.x+other.x, vec.y+other.y };
     }
 
     Vector2 operator-(const Vector2& vec, const Vector2& other) {
-        return Vector2(vec.x-other.x, vec.y-other.y);
+        return { vec.x-other.x, vec.y-other.y };
     }
 
     Vector2 operator*(const Vector2& vec, const Vector2& other) {
-        return Vector2(vec.x*other.x, vec.y*other.y);
+        return { vec.x*other.x, vec.y*other.y };
     }
 
     Vector2 operator/(const Vector2& vec, const Vector2& other) {
-        return Vector2(vec.x/other.x, vec.y/other.y);
+        return { vec.x/other.x, vec.y/other.y };
     }
 
     /*
      * Unary operators
      */
     Vector2 operator-(const Vector2& vec) {
-        return Vector2(-vec.x, -vec.y);
+        return { -vec.x, -vec.y };
     }
 
     /* Scaling operators
@@ -72,15 +71,15 @@ namespace laml {
      * These are all component-wise operations
      * */
     Vector2 operator*(const Vector2& vec, const real_t& factor) {
-        return Vector2(vec.x*factor, vec.y*factor);
+        return { vec.x*factor, vec.y*factor };
     }
 
     Vector2 operator/(const Vector2& vec, const real_t& factor) {
-        return Vector2(vec.x/factor, vec.y/factor);
+        return { vec.x/factor, vec.y/factor };
     }
 
     Vector2 operator*(const real_t& factor, const Vector2& vec) {
-        return Vector2(factor*vec.x, factor*vec.y);
+        return { factor*vec.x, factor*vec.y };
     }
 
 #ifdef LAML_STD_INCLUDE
@@ -134,10 +133,10 @@ namespace laml {
 
     Vector2 normalize(const Vector2& v) {
         real_t mag = length(v);
-        if (laml::abs(mag) < laml::eps) {
-            return Vector2();
+        if (std::abs(mag) < laml::eps) {
+            return {0.0, 0.0};
         }
-        return (v / mag);
+        return { v.x/mag, v.y/mag };
     }
 
     real_t min(const Vector2& v) {
@@ -157,22 +156,20 @@ namespace laml {
     }
 
     Vector2 abs(const Vector2& v) {
-        Vector2 res;
-        for (size_t n = 0; n < 2; n++) {
-            res[n] = v[n] > static_cast<real_t>(0.0) ? v[n] : -v[n];
-        }
-        return res;
+        return { std::abs(v.x), std::abs(v.y) };
     }
 
     Vector2 clamp(const Vector2& v, real_t min_val, real_t max_val) {
-        Vector2 res;
-        for (size_t n = 0; n < 2; n++) {
-            res[n] = v[n] > max_val ? max_val : (v[n] < min_val ? min_val : v[n]);
-        }
-        return res;
+        return {
+			v.x > max_val ? max_val : (v.x < min_val ? min_val : v.x),
+			v.y > max_val ? max_val : (v.y < min_val ? min_val : v.y)
+		};
     }
 
     Vector2 lerp(const Vector2& v1, const Vector2& v2, real_t factor) {
-        return v2 * factor + v1 * (static_cast<real_t>(1.0) - factor);
+		return {
+			v2.x*factor + v1.x*(static_cast<real_t>(1.0) - factor),
+			v2.x*factor + v1.x*(static_cast<real_t>(1.0) - factor)
+		};
     }
 }

@@ -1,7 +1,6 @@
-#include <laml/Vector4.hpp>
+#include <laml/vector4.h>
 
-#include <laml/Constants.hpp>
-#include <laml/Functions.hpp>
+#include <laml/constants.h>
 #include <math.h>
 
 namespace laml {
@@ -35,26 +34,26 @@ namespace laml {
      * These are all component-wise operations
      * */
     Vector4 operator+(const Vector4& vec, const Vector4& other) {
-        return Vector4(vec.x+other.x, vec.y+other.y, vec.z+other.z, vec.w+other.w);
+        return { vec.x+other.x, vec.y+other.y, vec.z+other.z, vec.w+other.w };
     }
 
     Vector4 operator-(const Vector4& vec, const Vector4& other) {
-        return Vector4(vec.x-other.x, vec.y-other.y, vec.z-other.z, vec.w-other.w);
+        return { vec.x-other.x, vec.y-other.y, vec.z-other.z, vec.w-other.w };
     }
 
     Vector4 operator*(const Vector4& vec, const Vector4& other) {
-        return Vector4(vec.x*other.x, vec.y*other.y, vec.z*other.z, vec.w*other.w);
+        return { vec.x*other.x, vec.y*other.y, vec.z*other.z, vec.w*other.w };
     }
 
     Vector4 operator/(const Vector4& vec, const Vector4& other) {
-        return Vector4(vec.x/other.x, vec.y/other.y, vec.z/other.z, vec.w/other.w);
+        return { vec.x/other.x, vec.y/other.y, vec.z/other.z, vec.w/other.w };
     }
 
     /*
      * Unary operators
      */
     Vector4 operator-(const Vector4& vec) {
-        return Vector4(-vec.x, -vec.y, -vec.z, -vec.w);
+        return { -vec.x, -vec.y, -vec.z, -vec.w };
     }
 
     /* Scaling operators
@@ -62,15 +61,15 @@ namespace laml {
      * These are all component-wise operations
      * */
     Vector4 operator*(const Vector4& vec, const real_t& factor) {
-        return Vector4(vec.x*factor, vec.y*factor, vec.z*factor, vec.w*factor);
+        return { vec.x*factor, vec.y*factor, vec.z*factor, vec.w*factor };
     }
 
     Vector4 operator/(const Vector4& vec, const real_t& factor) {
-        return Vector4(vec.x/factor, vec.y/factor, vec.z/factor, vec.w/factor);
+        return { vec.x/factor, vec.y/factor, vec.z/factor, vec.w/factor };
     }
 
     Vector4 operator*(const real_t& factor, const Vector4& vec) {
-        return Vector4(factor*vec.x, factor*vec.y, factor*vec.z, factor*vec.w);
+        return { factor*vec.x, factor*vec.y, factor*vec.z, factor*vec.w };
     }
 
 #ifdef LAML_STD_INCLUDE
@@ -124,10 +123,10 @@ namespace laml {
 
     Vector4 normalize(const Vector4& v) {
         real_t mag = length(v);
-        if (laml::abs(mag) < laml::eps) {
-            return Vector4();
+        if (std::abs(mag) < laml::eps) {
+            return {};
         }
-        return (v / mag);
+		return { v.x/mag, v.y/mag, v.z/mag, v.w/mag };
     }
 
     real_t min(const Vector4& v) {
@@ -147,22 +146,29 @@ namespace laml {
     }
 
     Vector4 abs(const Vector4& v) {
-        Vector4 res;
-        for (size_t n = 0; n < 4; n++) {
-            res[n] = v[n] > static_cast<real_t>(0.0) ? v[n] : -v[n];
-        }
-        return res;
+        return { 
+			std::abs(v.x), 
+			std::abs(v.y),
+			std::abs(v.z),
+			std::abs(v.w)
+		};
     }
 
     Vector4 clamp(const Vector4& v, real_t min_val, real_t max_val) {
-        Vector4 res;
-        for (size_t n = 0; n < 4; n++) {
-            res[n] = v[n] > max_val ? max_val : (v[n] < min_val ? min_val : v[n]);
-        }
-        return res;
+        return {
+			v.x > max_val ? max_val : (v.x < min_val ? min_val : v.x),
+			v.y > max_val ? max_val : (v.y < min_val ? min_val : v.y),
+			v.z > max_val ? max_val : (v.z < min_val ? min_val : v.z),
+			v.w > max_val ? max_val : (v.w < min_val ? min_val : v.w)
+		};
     }
 
     Vector4 lerp(const Vector4& v1, const Vector4& v2, real_t factor) {
-        return v2 * factor + v1 * (static_cast<real_t>(1.0) - factor);
+		return {
+			v2.x*factor + v1.x*(static_cast<real_t>(1.0) - factor),
+			v2.x*factor + v1.x*(static_cast<real_t>(1.0) - factor),
+			v2.z*factor + v1.z*(static_cast<real_t>(1.0) - factor),
+			v2.w*factor + v1.w*(static_cast<real_t>(1.0) - factor)
+		};
     }
 }

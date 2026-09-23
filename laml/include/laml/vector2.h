@@ -1,25 +1,26 @@
-#ifndef __LAML_VECTOR4_H
-#define __LAML_VECTOR4_H
-
+#ifndef __LAML_VECTOR2_H
+#define __LAML_VECTOR2_H
 
 #ifdef LAML_STD_INCLUDE
 #include <utility>
 #include <ostream>
 #endif
 
-#include <laml/Data_types.hpp>
+#include <laml/base.h>
 
 namespace laml {
 
-    struct Vector4 {
+    struct Vector2 {
+		LAML_DELETE_CTRS(Vector2); // Explicitly delete constructors/move/copy oeprators
+
         // Default (zero) constructor
-        Vector4();
+        Vector2();
 
         // Component-wise constructor
-        Vector4(real_t x_, real_t y_, real_t z_, real_t w_);
+        Vector2(real_t x_, real_t y_);
 
         // Construct with float array
-        Vector4(const float* in_data);
+        Vector2(const real_t* in_data);
 
         //// access like an array
         real_t& operator[](size_t idx);
@@ -28,30 +29,30 @@ namespace laml {
         const real_t* data() const;
         real_t* data();
 
-        real_t x, y, z, w;
+        real_t x, y;
     };
 
     /* Component-wise operators
      * typename T needs to implement: +,-,*,/
      * These are all component-wise operations
      * */
-    Vector4 operator+(const Vector4& vec, const Vector4& other);
-    Vector4 operator-(const Vector4& vec, const Vector4& other);
-    Vector4 operator*(const Vector4& vec, const Vector4& other);
-    Vector4 operator/(const Vector4& vec, const Vector4& other);
+    Vector2 operator+(const Vector2& vec, const Vector2& other);
+    Vector2 operator-(const Vector2& vec, const Vector2& other);
+    Vector2 operator*(const Vector2& vec, const Vector2& other);
+    Vector2 operator/(const Vector2& vec, const Vector2& other);
 
     /*
      * Unary operators
      */
-    Vector4 operator-(const Vector4& vec);
+    Vector2 operator-(const Vector2& vec);
 
     /* Scaling operators
      * typename T needs to implement: *,/
      * These are all component-wise operations
      * */
-    Vector4 operator*(const Vector4& vec, const real_t& factor);
-    Vector4 operator/(const Vector4& vec, const real_t& factor);
-    Vector4 operator*(const real_t& factor, const Vector4& vec);
+    Vector2 operator*(const Vector2& vec, const real_t& factor);
+    Vector2 operator/(const Vector2& vec, const real_t& factor);
+    Vector2 operator*(const real_t& factor, const Vector2& vec);
 
 #ifdef LAML_STD_INCLUDE
     // Printing functions
@@ -90,19 +91,19 @@ namespace laml {
 #endif
 
     // Free functions
-    real_t dot(const Vector4& v1, const Vector4& v2);
-    real_t length_sq(const Vector4& v);
-    real_t length(const Vector4& v);
-    Vector4 normalize(const Vector4& v);
-    real_t min(const Vector4& v);
-    real_t max(const Vector4& v);
-    Vector4 abs(const Vector4& v);
-    Vector4 clamp(const Vector4& v, real_t min_val, real_t max_val);
-    Vector4 lerp(const Vector4& v1, const Vector4& v2, real_t factor);
+    real_t dot(const Vector2& v1, const Vector2& v2);
+    real_t length_sq(const Vector2& v);
+    real_t length(const Vector2& v);
+    Vector2 normalize(const Vector2& v);
+    real_t min(const Vector2& v);
+    real_t max(const Vector2& v);
+    Vector2 abs(const Vector2& v);
+    Vector2 clamp(const Vector2& v, real_t min_val, real_t max_val);
+    Vector2 lerp(const Vector2& v1, const Vector2& v2, real_t factor);
 
     // Useful shorthands
-    typedef Vector4 Vec4;
+    typedef Vector2 vec2;
 
 }
 
-#endif // __LAML_VECTOR3_H
+#endif // __LAML_VECTOR2_H

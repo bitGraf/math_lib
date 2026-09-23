@@ -7,9 +7,9 @@
 #include <ostream>
 #endif
 
-#include <laml/Data_types.hpp>
-#include <laml/Constants.hpp>
-#include <laml/Vector3.hpp>
+#include <laml/base.h>
+#include <laml/constants.h>
+// #include <laml/Vector3.h>
 
 namespace laml {
 

@@ -6,14 +6,14 @@
     #include <laml.config.h>
 #endif
 
-#include <laml/Data_types.hpp>
+#include <laml/base.h>
 
-#include <laml/Matrix.hpp>
-#include <laml/Vector.hpp>
-#include <laml/Quaternion.hpp>
+//#include <laml/matrix.h>
+#include <laml/vector.h>
+//#include <laml/quaternion.h>
 
-#include <laml/Constants.hpp>
-#include <laml/Functions.hpp>
-#include <laml/Transform.hpp>
+#include <laml/constants.h>
+#include <laml/functions.h>
+//#include <laml/transform.h>
 
 #endif //__LAML_H
