@@ -6,23 +6,19 @@
 #define LAML_VERSION_PATCH @LAML_VERSION_PATCH@
 #define LAML_VERSION_STRING "v@LAML_VERSION_MAJOR@.@LAML_VERSION_MINOR@.@LAML_VERSION_PATCH@"
 
-namespace rh {
-    namespace laml {
-        const char* GetVersionString();
-        int GetVersionMajor();
-        int GetVersionMinor();
-        int GetVersionPatch();
-    }
+namespace laml {
+	const char* GetVersionString();
+	int GetVersionMajor();
+	int GetVersionMinor();
+	int GetVersionPatch();
 }
 
 #ifdef LAML_IMPLEMENTATION
-namespace rh {
-    namespace laml {
-        const char* GetVersionString() {return LAML_VERSION_STRING;}
-        int GetVersionMajor() {return LAML_VERSION_MAJOR;}
-        int GetVersionMinor() {return LAML_VERSION_MINOR;}
-        int GetVersionPatch() {return LAML_VERSION_PATCH;}
-    }
+namespace laml {
+    const char* GetVersionString() {return LAML_VERSION_STRING;}
+    int GetVersionMajor() {return LAML_VERSION_MAJOR;}
+    int GetVersionMinor() {return LAML_VERSION_MINOR;}
+    int GetVersionPatch() {return LAML_VERSION_PATCH;}
 }
 #endif
 
